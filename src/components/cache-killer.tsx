@@ -13,11 +13,6 @@ export function CacheKiller() {
       if ("serviceWorker" in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
         await Promise.all(registrations.map((registration) => registration.unregister()));
-
-        if (navigator.serviceWorker.controller && !sessionStorage.getItem("ec-cache-reset")) {
-          sessionStorage.setItem("ec-cache-reset", "1");
-          window.location.reload();
-        }
       }
     }
 
