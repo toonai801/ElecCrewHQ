@@ -3,6 +3,34 @@
 :root {
   --background: #030306;
   --foreground: #f8fafc;
+  --ec-base: #030306;
+  --ec-surface: #09090f;
+  --ec-panel: rgba(255, 255, 255, 0.04);
+  --ec-panel-strong: rgba(255, 255, 255, 0.07);
+  --ec-border: rgba(255, 255, 255, 0.10);
+  --ec-text: #ffffff;
+  --ec-muted: rgba(255, 255, 255, 0.68);
+  --ec-muted-soft: rgba(255, 255, 255, 0.52);
+  --ec-gold: #f5c542;
+  --ec-red: #ff4b4b;
+  --ec-orange: #ff8a1f;
+  --ec-yellow: #ffe156;
+  --ec-green: #39ff88;
+  --ec-cyan: #22d3ee;
+  --ec-blue: #4f8cff;
+  --ec-violet: #a855f7;
+  --ec-magenta: #ec4899;
+  --ec-rainbow: linear-gradient(
+    90deg,
+    var(--ec-red),
+    var(--ec-orange),
+    var(--ec-yellow),
+    var(--ec-green),
+    var(--ec-cyan),
+    var(--ec-blue),
+    var(--ec-violet),
+    var(--ec-magenta)
+  );
 }
 
 @theme inline {
@@ -27,6 +55,104 @@ body::before {
     radial-gradient(circle at 82% 12%, rgba(34, 211, 238, 0.16), transparent 26rem),
     radial-gradient(circle at 55% 55%, rgba(217, 70, 239, 0.12), transparent 28rem),
     linear-gradient(135deg, #030306 0%, #09090f 48%, #020203 100%);
+}
+
+.ec-panel {
+  border: 1px solid var(--ec-border);
+  background: var(--ec-panel);
+}
+
+.ec-panel-strong {
+  border: 1px solid var(--ec-border);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.ec-eyebrow {
+  color: var(--ec-gold);
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.ec-text-muted {
+  color: var(--ec-muted);
+}
+
+.ec-text-soft {
+  color: var(--ec-muted-soft);
+}
+
+.ec-button-primary {
+  border-radius: 0.375rem;
+  background: var(--ec-gold);
+  color: #000;
+  font-weight: 900;
+}
+
+.ec-button-primary:hover {
+  background: #fff;
+}
+
+.ec-button-ghost {
+  border: 1px solid var(--ec-border);
+  border-radius: 0.375rem;
+  color: #fff;
+}
+
+.ec-button-ghost:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.ec-button-cyan {
+  border: 1px solid rgba(34, 211, 238, 0.40);
+  border-radius: 0.375rem;
+  color: #cffafe;
+}
+
+.ec-button-cyan:hover {
+  background: rgba(34, 211, 238, 0.10);
+}
+
+.ec-rainbow-line {
+  height: 2px;
+  background: var(--ec-rainbow);
+}
+
+.ec-badge-red,
+.ec-badge-orange,
+.ec-badge-cyan,
+.ec-badge-violet,
+.ec-badge-green {
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.ec-badge-red {
+  background: rgba(255, 75, 75, 0.16);
+  color: #fecaca;
+}
+
+.ec-badge-orange {
+  background: rgba(255, 138, 31, 0.16);
+  color: #fed7aa;
+}
+
+.ec-badge-cyan {
+  background: rgba(34, 211, 238, 0.16);
+  color: #cffafe;
+}
+
+.ec-badge-violet {
+  background: rgba(168, 85, 247, 0.16);
+  color: #e9d5ff;
+}
+
+.ec-badge-green {
+  background: rgba(57, 255, 136, 0.14);
+  color: #bbf7d0;
 }
 
 a,

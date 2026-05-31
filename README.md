@@ -64,3 +64,15 @@ Set `BETA_LOCK_ENABLED=true` during beta. Only users whose email is in `BETA_ALL
 - `DISCORD_WEBHOOK_URL` is server-only and used by `src/lib/discord.ts` for official event announcements.
 
 Never commit real secrets, webhook URLs, OAuth secrets, database URLs, or admin credentials.
+
+## Style System
+
+Electric Crew uses a clean pride-rainbow color map on a dark VR club foundation.
+
+- Black and near-black carry the page, nav, cards, and admin surfaces.
+- White and soft gray carry readable text.
+- Gold is the Electric Crew brand accent and primary CTA color.
+- Rainbow colors are intentional accents only: thin dividers, badges, focus states, and small metadata.
+- Avoid full rainbow sections, rainbow headings, pastel palettes, and busy glow stacks.
+
+Theme tokens live in `src/app/globals.css`, with reference usage notes in `src/lib/theme.ts`.

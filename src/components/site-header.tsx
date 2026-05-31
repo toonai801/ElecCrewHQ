@@ -12,14 +12,14 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/85 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <Link href="/" className="flex items-center gap-3 text-white">
-          <span className="grid size-11 place-items-center rounded-lg border border-yellow-300/40 bg-yellow-300/10 text-yellow-200 shadow-[0_0_24px_rgba(245,197,66,0.35)]">
+          <span className="grid size-11 place-items-center rounded-lg border border-[color:rgba(245,197,66,0.40)] bg-[color:rgba(245,197,66,0.10)] text-[color:var(--ec-gold)] shadow-[0_0_24px_rgba(245,197,66,0.28)]">
             <Zap className="size-6" aria-hidden="true" />
           </span>
           <span>
-            <span className="block text-base font-black uppercase tracking-[0.24em] text-yellow-200">
+            <span className="block text-base font-black uppercase tracking-[0.24em] text-[color:var(--ec-gold)]">
               Electric Crew
             </span>
-            <span className="text-sm text-white/60">VR community hub</span>
+            <span className="ec-text-soft text-sm">VR community hub</span>
           </span>
         </Link>
 
@@ -33,7 +33,7 @@ export async function SiteHeader() {
             {session ? "Profile" : "Login"}
           </Link>
           {canModeratePosts(role) ? (
-            <Link href="/admin" className="rounded-md border border-yellow-300/30 px-3 py-2 text-yellow-200 hover:bg-yellow-300/10">
+            <Link href="/admin" className="rounded-md border border-[color:rgba(245,197,66,0.30)] px-3 py-2 text-[color:var(--ec-gold)] hover:bg-[color:rgba(245,197,66,0.10)]">
               Admin
             </Link>
           ) : null}
