@@ -18,9 +18,10 @@ type EventCardProps = {
 
 export function EventCard({ event }: EventCardProps) {
   return (
-    <article className="ec-panel ec-accent-events overflow-hidden rounded-lg shadow-[0_0_30px_rgba(255,138,31,0.10)]">
+    <article className="ec-panel ec-accent-events ec-card-hover ec-hud overflow-hidden rounded-lg shadow-[0_0_30px_rgba(255,138,31,0.18)]">
       <div className="relative aspect-[16/10]">
-        <Image src={event.flyerImageUrl} alt={event.flyerAlt || event.title} fill className="object-cover" sizes="(min-width: 1024px) 33vw, 100vw" />
+        <Image src={event.flyerImageUrl} alt={event.flyerAlt || event.title} fill className="object-cover saturate-150" sizes="(min-width: 1024px) 33vw, 100vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
         {event.isFeatured ? (
           <span className="absolute left-4 top-4 rounded-md bg-[color:var(--ec-gold)] px-3 py-1 text-xs font-black uppercase tracking-widest text-black">
             Featured

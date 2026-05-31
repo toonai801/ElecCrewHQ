@@ -9,21 +9,22 @@ export async function SiteHeader() {
   const role = session?.user.role;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-black/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-black/70 backdrop-blur-2xl">
+      <div className="h-1 bg-gradient-to-r from-[color:var(--ec-red)] via-[color:var(--ec-green)] to-[color:var(--ec-magenta)]" />
       <nav className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <Link href="/" className="flex items-center gap-3 text-white">
-          <span className="grid size-11 place-items-center rounded-lg border border-[color:rgba(245,197,66,0.40)] bg-[color:rgba(245,197,66,0.10)] text-[color:var(--ec-gold)] shadow-[0_0_24px_rgba(245,197,66,0.28)]">
+          <span className="ec-hud grid size-12 place-items-center border border-[color:rgba(245,197,66,0.55)] bg-[color:rgba(245,197,66,0.12)] text-[color:var(--ec-gold)] shadow-[0_0_24px_rgba(245,197,66,0.28)]">
             <Zap className="size-6" aria-hidden="true" />
           </span>
           <span>
-            <span className="block text-base font-black uppercase tracking-[0.24em] text-[color:var(--ec-gold)]">
+            <span className="block text-base font-black uppercase tracking-[0.24em] text-white">
               Electric Crew
             </span>
-            <span className="ec-text-soft text-sm">VR community hub</span>
+            <span className="ec-spectrum-text text-sm font-black uppercase tracking-[0.18em]">VR community hub</span>
           </span>
         </Link>
 
-        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-white/75">
+        <div className="ec-hud flex flex-wrap items-center gap-1 border border-white/10 bg-white/[0.04] p-1 text-sm font-semibold text-white/75">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="rounded-md px-3 py-2 hover:bg-white/10 hover:text-white">
               {item.label}
