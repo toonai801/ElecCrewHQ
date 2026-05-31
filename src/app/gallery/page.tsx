@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { Section } from "@/components/section";
-import { galleryItems } from "@/lib/sample-data";
+import { getGalleryItems } from "@/lib/content";
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const galleryItems = await getGalleryItems();
+
   return (
     <Section eyebrow="Gallery" title="Approved flyers and VR photos">
       <div className="mb-8 flex flex-wrap gap-2 text-sm">

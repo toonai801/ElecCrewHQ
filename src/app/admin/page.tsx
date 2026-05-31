@@ -22,9 +22,19 @@ export default async function AdminPage() {
         </ActionCard>
         <ActionCard title="Community moderation">
           Approve, reject, delete, and feature submitted community posts. Normal members queue as pending; trusted crew can auto-approve.
+          <div className="mt-4">
+            <Link className="font-bold text-[color:var(--ec-violet)] hover:text-white" href="/admin/community">
+              Moderate posts
+            </Link>
+          </div>
         </ActionCard>
         <ActionCard title="Users and settings">
           Manage roles, trusted crew status, beta access, featured content, Discord status, and site settings. TOON cannot be demoted or deleted from the UI.
+          <div className="mt-4">
+            <Link className="font-bold text-[color:var(--ec-green)] hover:text-white" href="/admin/users">
+              Manage users
+            </Link>
+          </div>
         </ActionCard>
       </div>
     </Section>

@@ -69,3 +69,85 @@ export async function getAllOfficialEventsForAdmin() {
     return sampleEvents;
   }
 }
+
+export async function getAllCommunityPostsForAdmin() {
+  try {
+    return await prisma.communityPost.findMany({
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
+        approvedBy: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getMyCommunityPosts(userId: string) {
+  try {
+    return await prisma.communityPost.findMany({
+      where: {
+        authorId: userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getAllUsersForAdmin() {
+  try {
+    return await prisma.user.findMany({
+      orderBy: [
+        { role: "asc" },
+        { createdAt: "desc" },
+      ],
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getGalleryItems() {
+  const approvedPosts = await getApprovedCommunityPosts();
+  const publishedEvents = await getPublishedEvents();
+
+  return [
+    ...publishedEvents
+      .filter((event) => event.flyerImageUrl)
+      .map((event) => ({
+        id: `event-${event.id}`,
+        title: event.title,
+        imageUrl: event.flyerImageUrl,
+        imageAlt: event.flyerAlt || event.title,
+        tag: "Official event",
+      })),
+    ...approvedPosts
+      .filter((post) => post.imageUrl)
+      .map((post) => ({
+        id: `post-${post.id}`,
+        title: post.title,
+        imageUrl: post.imageUrl || "",
+        imageAlt: post.imageAlt || post.title,
+        tag: post.postType,
+      })),
+  ];
+}
