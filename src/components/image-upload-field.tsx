@@ -57,14 +57,11 @@ export function ImageUploadField({
       <span>{label}</span>
       <input
         name={name}
-        type="url"
+        type="hidden"
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none"
-        style={{ "--tw-ring-color": accent } as CSSProperties}
-        placeholder="Paste image URL or upload a file"
       />
-      <div className="flex flex-wrap gap-2">
+      <div className="grid gap-2 rounded-md border border-white/10 bg-black/45 p-3">
         <input
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif"
@@ -75,11 +72,24 @@ export function ImageUploadField({
           type="button"
           onClick={upload}
           disabled={isUploading}
-          className="rounded-md border border-white/15 px-3 py-2 text-xs font-black text-white hover:bg-white/10 disabled:opacity-60"
+          className="w-fit rounded-md border border-white/15 px-3 py-2 text-xs font-black text-white hover:bg-white/10 disabled:opacity-60"
+          style={{ borderColor: accent }}
         >
           {isUploading ? "Uploading..." : "Upload"}
         </button>
+        {value ? <p className="break-all text-xs text-[color:var(--ec-green)]">Image selected.</p> : null}
       </div>
+      <details className="text-xs text-white/55">
+        <summary className="cursor-pointer hover:text-white">Paste image URL instead</summary>
+        <input
+          type="url"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          className="mt-2 w-full rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none"
+          style={{ "--tw-ring-color": accent } as CSSProperties}
+          placeholder="https://..."
+        />
+      </details>
       {message ? <p className="text-xs text-[color:var(--ec-muted)]">{message}</p> : null}
     </div>
   );

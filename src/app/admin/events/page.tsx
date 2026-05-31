@@ -109,7 +109,7 @@ export default async function AdminEventsPage() {
                     <input name="eventDate" type="datetime-local" defaultValue={event.eventDate.toISOString().slice(0, 16)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="host" defaultValue={event.host} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="location" defaultValue={event.location} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
-                    <ImageUploadField name="flyerImageUrl" label="Flyer image URL" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" />
+                    <ImageUploadField name="flyerImageUrl" label="Flyer image" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" />
                     <input name="flyerAlt" defaultValue={event.flyerAlt || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="discordUrl" type="url" defaultValue={event.discordUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="rsvpUrl" type="url" defaultValue={event.rsvpUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />

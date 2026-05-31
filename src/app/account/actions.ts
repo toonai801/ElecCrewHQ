@@ -49,6 +49,11 @@ export async function createCommunityPost(formData: FormData) {
     redirect("/account?error=posting-locked");
   }
 
+  const selectedTags = formData
+    .getAll("tags")
+    .map((tag) => String(tag).trim().toLowerCase())
+    .filter(Boolean);
+
   const parsed = communityPostSchema.safeParse({
     title: formData.get("title"),
     body: formData.get("body"),
@@ -56,7 +61,7 @@ export async function createCommunityPost(formData: FormData) {
     imageUrl: formData.get("imageUrl"),
     imageAlt: formData.get("imageAlt"),
     externalUrl: formData.get("externalUrl"),
-    tags: formData.get("tags") || "",
+    tags: selectedTags.join(","),
     visibility: formData.get("visibility") || "PUBLIC",
   });
 

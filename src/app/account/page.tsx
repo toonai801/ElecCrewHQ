@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { Section } from "@/components/section";
 import { ImageUploadField } from "@/components/image-upload-field";
 import { getAccountProfile, getMyCommunityPosts } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
-import { createCommunityPost, deleteOwnPendingPost, updateProfile } from "@/app/account/actions";
+import { deleteOwnPendingPost, updateProfile } from "@/app/account/actions";
 
 export default async function AccountPage() {
   const { session } = await requireRole(["TOON", "ADMIN", "MODERATOR", "TRUSTED_CREW", "MEMBER"]);
@@ -30,7 +31,7 @@ export default async function AccountPage() {
                 Display name
                 <input name="name" defaultValue={displayName} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-green)]" />
               </label>
-              <ImageUploadField name="avatarUrl" label="Avatar URL" defaultValue={avatarUrl} accent="var(--ec-green)" />
+              <ImageUploadField name="avatarUrl" label="Avatar image" defaultValue={avatarUrl} accent="var(--ec-green)" />
               <label className="grid gap-2 text-sm font-bold text-white/80">
                 Bio
                 <textarea name="bio" defaultValue={bio} className="min-h-28 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-green)]" />
@@ -41,50 +42,15 @@ export default async function AccountPage() {
             </div>
           </form>
 
-          <form action={createCommunityPost} className="ec-panel ec-accent-community rounded-lg p-5">
-            <h2 className="text-xl font-black text-white">Submit community post</h2>
-            <div className="mt-4 grid gap-4">
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Title
-                <input name="title" required className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Post type
-                <select name="postType" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]">
-                  {["EVENT", "FLYER", "PHOTO", "TEXT", "LINK"].map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Body
-                <textarea name="body" required className="min-h-32 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
-              </label>
-              <ImageUploadField name="imageUrl" label="Image URL" accent="var(--ec-violet)" />
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Image alt text
-                <input name="imageAlt" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                External link
-                <input name="externalUrl" type="url" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Tags
-                <input name="tags" placeholder="vrchat, flyer, neon-surge" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-white/80">
-                Visibility
-                <select name="visibility" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]">
-                  <option value="PUBLIC">Public</option>
-                  <option value="MEMBERS_ONLY">Members only</option>
-                </select>
-              </label>
-              <button className="ec-button-cyan px-4 py-3 font-black" type="submit">
-                Submit post
-              </button>
-            </div>
-          </form>
+          <div className="ec-panel ec-accent-community rounded-lg p-5">
+            <h2 className="text-xl font-black text-white">Community posting</h2>
+            <p className="mt-3 text-sm leading-6 text-[color:var(--ec-muted)]">
+              Add new posts from the community feed so posting happens in the right place.
+            </p>
+            <Link href="/community#add-post" className="ec-button-cyan mt-4 inline-flex px-4 py-3 font-black">
+              Add post
+            </Link>
+          </div>
         </div>
 
         <div className="ec-panel rounded-lg p-5">

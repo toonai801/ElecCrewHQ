@@ -6,6 +6,18 @@ const imageUrl = z
   .optional()
   .or(z.literal(""));
 
+export const communityTagOptions = [
+  "announcement",
+  "event",
+  "flyer",
+  "music",
+  "neon-surge",
+  "photos",
+  "safety",
+  "vrchat",
+  "worlds",
+] as const;
+
 export const officialEventSchema = z.object({
   title: z.string().min(3).max(120),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -36,7 +48,10 @@ export const communityPostSchema = z.object({
         .split(",")
         .map((tag) => tag.trim().toLowerCase())
         .filter(Boolean),
-    ),
+    )
+    .refine((tags) => tags.every((tag) => communityTagOptions.includes(tag as (typeof communityTagOptions)[number])), {
+      message: "Unsupported community tag",
+    }),
   visibility: z.enum(["PUBLIC", "MEMBERS_ONLY"]),
 });
 
