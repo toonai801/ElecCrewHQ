@@ -104,51 +104,63 @@ body::before {
 }
 
 .ec-accent-community {
-  border-color: rgba(168, 85, 247, 0.48);
+  border-color: rgba(168, 85, 247, 0.78);
   background:
-    linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(168, 85, 247, 0.035) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(168, 85, 247, 0.85);
+    linear-gradient(135deg, rgba(168, 85, 247, 0.32), rgba(168, 85, 247, 0.08) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(168, 85, 247, 0.95),
+    0 0 26px rgba(168, 85, 247, 0.14);
 }
 
 .ec-accent-events {
-  border-color: rgba(255, 138, 31, 0.52);
+  border-color: rgba(255, 138, 31, 0.82);
   background:
-    linear-gradient(135deg, rgba(255, 138, 31, 0.18), rgba(255, 225, 86, 0.035) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(255, 138, 31, 0.88);
+    linear-gradient(135deg, rgba(255, 138, 31, 0.32), rgba(255, 225, 86, 0.08) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(255, 138, 31, 0.96),
+    0 0 26px rgba(255, 138, 31, 0.14);
 }
 
 .ec-accent-discord {
-  border-color: rgba(79, 140, 255, 0.52);
+  border-color: rgba(79, 140, 255, 0.82);
   background:
-    linear-gradient(135deg, rgba(79, 140, 255, 0.18), rgba(34, 211, 238, 0.04) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(79, 140, 255, 0.90);
+    linear-gradient(135deg, rgba(79, 140, 255, 0.32), rgba(34, 211, 238, 0.08) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(79, 140, 255, 0.96),
+    0 0 26px rgba(79, 140, 255, 0.14);
 }
 
 .ec-accent-gallery {
-  border-color: rgba(236, 72, 153, 0.50);
+  border-color: rgba(236, 72, 153, 0.80);
   background:
-    linear-gradient(135deg, rgba(236, 72, 153, 0.18), rgba(168, 85, 247, 0.04) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(236, 72, 153, 0.88);
+    linear-gradient(135deg, rgba(236, 72, 153, 0.32), rgba(168, 85, 247, 0.08) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(236, 72, 153, 0.96),
+    0 0 26px rgba(236, 72, 153, 0.14);
 }
 
 .ec-accent-trusted {
-  border-color: rgba(57, 255, 136, 0.46);
+  border-color: rgba(57, 255, 136, 0.74);
   background:
-    linear-gradient(135deg, rgba(57, 255, 136, 0.15), rgba(57, 255, 136, 0.035) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(57, 255, 136, 0.82);
+    linear-gradient(135deg, rgba(57, 255, 136, 0.26), rgba(57, 255, 136, 0.07) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(57, 255, 136, 0.92),
+    0 0 26px rgba(57, 255, 136, 0.12);
 }
 
 .ec-accent-warning {
-  border-color: rgba(255, 75, 75, 0.50);
+  border-color: rgba(255, 75, 75, 0.78);
   background:
-    linear-gradient(135deg, rgba(255, 75, 75, 0.16), rgba(255, 75, 75, 0.035) 48%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: inset 3px 0 0 rgba(255, 75, 75, 0.86);
+    linear-gradient(135deg, rgba(255, 75, 75, 0.30), rgba(255, 75, 75, 0.08) 52%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 8px 0 0 rgba(255, 75, 75, 0.95),
+    0 0 26px rgba(255, 75, 75, 0.13);
 }
 
 .ec-badge-red,
@@ -163,28 +175,28 @@ body::before {
 }
 
 .ec-badge-red {
-  background: rgba(255, 75, 75, 0.16);
-  color: #fecaca;
+  background: rgba(255, 75, 75, 0.28);
+  color: #fff1f1;
 }
 
 .ec-badge-orange {
-  background: rgba(255, 138, 31, 0.16);
-  color: #fed7aa;
+  background: rgba(255, 138, 31, 0.30);
+  color: #fff3df;
 }
 
 .ec-badge-cyan {
-  background: rgba(34, 211, 238, 0.16);
-  color: #cffafe;
+  background: rgba(34, 211, 238, 0.28);
+  color: #edfeff;
 }
 
 .ec-badge-violet {
-  background: rgba(168, 85, 247, 0.16);
-  color: #e9d5ff;
+  background: rgba(168, 85, 247, 0.30);
+  color: #f5edff;
 }
 
 .ec-badge-green {
-  background: rgba(57, 255, 136, 0.14);
-  color: #bbf7d0;
+  background: rgba(57, 255, 136, 0.24);
+  color: #ecfff3;
 }
 
 a,
