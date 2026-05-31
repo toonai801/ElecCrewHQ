@@ -1,44 +1,104 @@
 import { ActionCard } from "@/components/action-card";
 import { Section } from "@/components/section";
+import { getAllOfficialEventsForAdmin } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
-import { sampleEvents } from "@/lib/sample-data";
+import {
+  createOfficialEvent,
+  deleteOfficialEvent,
+  toggleOfficialEventFeatured,
+  updateOfficialEventStatus,
+} from "@/app/admin/events/actions";
 
 export default async function AdminEventsPage() {
   await requireRole(["TOON", "ADMIN"]);
+  const events = await getAllOfficialEventsForAdmin();
 
   return (
     <Section eyebrow="Admin events" title="Official event management">
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <form className="grid gap-4 rounded-lg border border-white/10 bg-white/[0.04] p-5">
-          {["Title", "Slug", "Date and time", "Host/DJ/Performer", "VR world/location", "Flyer image URL", "Discord link", "RSVP link"].map((label) => (
-            <label key={label} className="grid gap-2 text-sm font-bold text-white/80">
+        <form action={createOfficialEvent} className="ec-panel ec-accent-events grid gap-4 rounded-lg p-5">
+          {[
+            ["Title", "title", "text"],
+            ["Slug", "slug", "text"],
+            ["Date and time", "eventDate", "datetime-local"],
+            ["Host/DJ/Performer", "host", "text"],
+            ["VR world/location", "location", "text"],
+            ["Flyer image URL", "flyerImageUrl", "url"],
+            ["Flyer alt text", "flyerAlt", "text"],
+            ["Discord link", "discordUrl", "url"],
+            ["RSVP link", "rsvpUrl", "url"],
+          ].map(([label, name, type]) => (
+            <label key={name} className="grid gap-2 text-sm font-bold text-white/80">
               {label}
-              <input className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-yellow-300" />
+              <input
+                name={name}
+                type={type}
+                required={["title", "slug", "eventDate", "host", "location"].includes(name)}
+                className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-orange)]"
+              />
             </label>
           ))}
           <label className="grid gap-2 text-sm font-bold text-white/80">
             Description
-            <textarea className="min-h-32 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-yellow-300" />
+            <textarea
+              name="description"
+              required
+              className="min-h-32 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-orange)]"
+            />
           </label>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <label className="grid gap-2 text-sm font-bold text-white/80">
+            Status
+            <select name="status" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-orange)]">
+              <option value="DRAFT">Draft</option>
+              <option value="PUBLISHED">Published</option>
+              <option value="ARCHIVED">Archived</option>
+            </select>
+          </label>
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex items-center gap-2 text-sm text-white/75">
-              <input type="checkbox" /> Featured
+              <input name="isFeatured" type="checkbox" /> Featured
             </label>
             <label className="flex items-center gap-2 text-sm text-white/75">
-              <input type="checkbox" /> Published
-            </label>
-            <label className="flex items-center gap-2 text-sm text-white/75">
-              <input type="checkbox" /> Announce to Discord
+              <input name="announceToDiscord" type="checkbox" /> Announce to Discord
             </label>
           </div>
-          <button className="ec-button-primary px-4 py-3" type="button">
+          <button className="ec-button-primary px-4 py-3" type="submit">
             Save event
           </button>
         </form>
+
         <div className="grid gap-4">
-          {sampleEvents.map((event) => (
+          {events.map((event) => (
             <ActionCard key={event.id} title={event.title}>
-              {event.status} · {event.eventDate.toLocaleString()} · {event.location}
+              <div className="space-y-4">
+                <p>
+                  {event.status} - {event.eventDate.toLocaleString()} - {event.location}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["DRAFT", "PUBLISHED", "ARCHIVED"].map((status) => (
+                    <form key={status} action={updateOfficialEventStatus}>
+                      <input name="id" type="hidden" value={event.id} />
+                      <input name="status" type="hidden" value={status} />
+                      <button className="ec-button-ghost px-3 py-2 text-xs font-black" type="submit">
+                        {status}
+                      </button>
+                    </form>
+                  ))}
+                  <form action={toggleOfficialEventFeatured}>
+                    <input name="id" type="hidden" value={event.id} />
+                    <input name="isFeatured" type="hidden" value={String(event.isFeatured)} />
+                    <button className="ec-button-ghost px-3 py-2 text-xs font-black" type="submit">
+                      {event.isFeatured ? "Unfeature" : "Feature"}
+                    </button>
+                  </form>
+                  <form action={deleteOfficialEvent}>
+                    <input name="id" type="hidden" value={event.id} />
+                    <button className="rounded-md border border-[color:rgba(255,75,75,0.45)] px-3 py-2 text-xs font-black text-[color:var(--ec-red)] hover:bg-[color:rgba(255,75,75,0.10)]" type="submit">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
             </ActionCard>
           ))}
         </div>

@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { PostCard } from "@/components/post-card";
 import { Section } from "@/components/section";
-import { samplePosts } from "@/lib/sample-data";
+import { getApprovedCommunityPosts } from "@/lib/content";
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const posts = await getApprovedCommunityPosts();
+
   return (
     <Section eyebrow="Community feed" title="A safer Electric Crew social layer">
       <div className="mb-8 grid gap-4 md:grid-cols-2">
@@ -20,7 +22,7 @@ export default function CommunityPage() {
         </div>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
-        {samplePosts.map((post) => (
+        {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>

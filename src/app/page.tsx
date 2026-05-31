@@ -12,9 +12,15 @@ import {
 import { EventCard } from "@/components/event-card";
 import { PostCard } from "@/components/post-card";
 import { Section } from "@/components/section";
-import { discordInviteUrl, galleryItems, sampleEvents, samplePosts } from "@/lib/sample-data";
+import { getApprovedCommunityPosts, getPublishedEvents } from "@/lib/content";
+import { discordInviteUrl, galleryItems } from "@/lib/sample-data";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [events, posts] = await Promise.all([
+    getPublishedEvents(),
+    getApprovedCommunityPosts(),
+  ]);
+
   return (
     <>
       <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -135,7 +141,7 @@ export default function HomePage() {
           ))}
         </div>
         <div className="grid gap-5 lg:grid-cols-2">
-          {samplePosts.map((post) => (
+          {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
@@ -143,7 +149,7 @@ export default function HomePage() {
 
       <Section eyebrow="Official events" title="Electric Crew nights">
         <div className="grid gap-5 lg:grid-cols-2">
-          {sampleEvents.map((event) => (
+          {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
