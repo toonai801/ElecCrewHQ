@@ -14,7 +14,7 @@ export function Section({
       <div className="mb-8 max-w-3xl">
         {eyebrow ? <p className="ec-eyebrow">{eyebrow}</p> : null}
         <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">{title}</h2>
-        <div className="ec-rainbow-line mt-5 w-28 rounded-full" />
+        <div className="mt-5 h-px w-28 rounded-full bg-[color:rgba(245,197,66,0.55)]" />
       </div>
       {children}
     </section>

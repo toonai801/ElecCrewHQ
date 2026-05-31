@@ -19,7 +19,7 @@ export const electricCrewTheme = {
   usage: {
     base: "Page background, nav, dashboards, and content areas.",
     gold: "Primary Electric Crew brand accent, active states, and main CTAs.",
-    rainbow: "Thin accents, dividers, focus rings, and post metadata only.",
+    rainbow: "Small badges, status details, and metadata only.",
     cyanMagentaViolet: "Secondary neon accents for tags, gallery, Discord, and moderation states.",
   },
 } as const;

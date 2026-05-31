@@ -20,17 +20,6 @@
   --ec-blue: #4f8cff;
   --ec-violet: #a855f7;
   --ec-magenta: #ec4899;
-  --ec-rainbow: linear-gradient(
-    90deg,
-    var(--ec-red),
-    var(--ec-orange),
-    var(--ec-yellow),
-    var(--ec-green),
-    var(--ec-cyan),
-    var(--ec-blue),
-    var(--ec-violet),
-    var(--ec-magenta)
-  );
 }
 
 @theme inline {
@@ -112,11 +101,6 @@ body::before {
 
 .ec-button-cyan:hover {
   background: rgba(34, 211, 238, 0.10);
-}
-
-.ec-rainbow-line {
-  height: 2px;
-  background: var(--ec-rainbow);
 }
 
 .ec-badge-red,
