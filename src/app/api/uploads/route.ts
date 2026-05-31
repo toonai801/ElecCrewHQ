@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { maxImageUploadBytes, supportedImageTypes } from "@/lib/validators";
+import { maxImageUploadBytes, maxImageUploadMegabytes, supportedImageTypeLabel, supportedImageTypes } from "@/lib/upload-limits";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -29,11 +29,11 @@ export async function POST(request: Request) {
   }
 
   if (!supportedImageTypes.includes(file.type)) {
-    return NextResponse.json({ error: "Use JPG, PNG, WebP, or GIF." }, { status: 400 });
+    return NextResponse.json({ error: `Use ${supportedImageTypeLabel}.` }, { status: 400 });
   }
 
   if (file.size > maxImageUploadBytes) {
-    return NextResponse.json({ error: "Image must be 5 MB or smaller." }, { status: 400 });
+    return NextResponse.json({ error: `Image must be ${maxImageUploadMegabytes} MB or smaller.` }, { status: 400 });
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "webp";

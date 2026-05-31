@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type CSSProperties } from "react";
+import { maxImageUploadBytes, maxImageUploadMegabytes, supportedImageTypeLabel, supportedImageTypes } from "@/lib/upload-limits";
 
 export function ImageUploadField({
   name,
@@ -19,13 +20,34 @@ export function ImageUploadField({
   const [file, setFile] = useState<File | null>(null);
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    setFile(event.target.files?.[0] ?? null);
+    const selectedFile = event.target.files?.[0] ?? null;
+
+    if (selectedFile && !supportedImageTypes.includes(selectedFile.type)) {
+      setFile(null);
+      setMessage(`Use ${supportedImageTypeLabel}.`);
+      event.target.value = "";
+      return;
+    }
+
+    if (selectedFile && selectedFile.size > maxImageUploadBytes) {
+      setFile(null);
+      setMessage(`Image must be ${maxImageUploadMegabytes} MB or smaller.`);
+      event.target.value = "";
+      return;
+    }
+
+    setFile(selectedFile);
     setMessage("");
   }
 
   async function upload() {
     if (!file) {
       setMessage("Choose an image first.");
+      return;
+    }
+
+    if (file.size > maxImageUploadBytes) {
+      setMessage(`Image must be ${maxImageUploadMegabytes} MB or smaller.`);
       return;
     }
 
@@ -77,6 +99,9 @@ export function ImageUploadField({
         >
           {isUploading ? "Uploading..." : "Upload"}
         </button>
+        <p className="text-xs text-white/45">
+          {supportedImageTypeLabel}. Max {maxImageUploadMegabytes} MB.
+        </p>
         {value ? <p className="break-all text-xs text-[color:var(--ec-green)]">Image selected.</p> : null}
       </div>
       <details className="text-xs text-white/55">

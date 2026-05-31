@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { maxImageUploadBytes, supportedImageTypes } from "@/lib/upload-limits";
 
 const imageUrl = z
   .string()
@@ -61,5 +62,4 @@ export const profileSchema = z.object({
   bio: z.string().max(600).optional(),
 });
 
-export const supportedImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-export const maxImageUploadBytes = 5 * 1024 * 1024;
+export { maxImageUploadBytes, supportedImageTypes };
