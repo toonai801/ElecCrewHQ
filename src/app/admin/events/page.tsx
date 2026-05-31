@@ -1,4 +1,5 @@
 import { ActionCard } from "@/components/action-card";
+import { ImageUploadField } from "@/components/image-upload-field";
 import { Section } from "@/components/section";
 import { getAllOfficialEventsForAdmin } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
@@ -6,6 +7,7 @@ import {
   createOfficialEvent,
   deleteOfficialEvent,
   toggleOfficialEventFeatured,
+  updateOfficialEvent,
   updateOfficialEventStatus,
 } from "@/app/admin/events/actions";
 
@@ -98,6 +100,34 @@ export default async function AdminEventsPage() {
                     </button>
                   </form>
                 </div>
+                <details className="rounded-lg border border-white/10 bg-black/35 p-4">
+                  <summary className="cursor-pointer font-black text-white">Edit event details</summary>
+                  <form action={updateOfficialEvent} className="mt-4 grid gap-3">
+                    <input name="id" type="hidden" value={event.id} />
+                    <input name="title" defaultValue={event.title} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="slug" defaultValue={event.slug} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="eventDate" type="datetime-local" defaultValue={event.eventDate.toISOString().slice(0, 16)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="host" defaultValue={event.host} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="location" defaultValue={event.location} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <ImageUploadField name="flyerImageUrl" label="Flyer image URL" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" />
+                    <input name="flyerAlt" defaultValue={event.flyerAlt || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="discordUrl" type="url" defaultValue={event.discordUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="rsvpUrl" type="url" defaultValue={event.rsvpUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <textarea name="description" defaultValue={event.description} className="min-h-28 rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <select name="status" defaultValue={event.status} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white">
+                      <option value="DRAFT">Draft</option>
+                      <option value="PUBLISHED">Published</option>
+                      <option value="ARCHIVED">Archived</option>
+                    </select>
+                    <label className="flex items-center gap-2 text-sm text-white/75">
+                      <input name="isFeatured" type="checkbox" defaultChecked={event.isFeatured} /> Featured
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-white/75">
+                      <input name="announceToDiscord" type="checkbox" /> Announce to Discord
+                    </label>
+                    <button className="ec-button-primary px-3 py-2 text-sm" type="submit">Save changes</button>
+                  </form>
+                </details>
               </div>
             </ActionCard>
           ))}

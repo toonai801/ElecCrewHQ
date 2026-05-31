@@ -113,6 +113,23 @@ export async function getMyCommunityPosts(userId: string) {
   }
 }
 
+export async function getAccountProfile(userId: string) {
+  try {
+    return await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        name: true,
+        email: true,
+        avatarUrl: true,
+        bio: true,
+        role: true,
+      },
+    });
+  } catch {
+    return null;
+  }
+}
+
 export async function getAllUsersForAdmin() {
   try {
     return await prisma.user.findMany({
@@ -123,6 +140,39 @@ export async function getAllUsersForAdmin() {
     });
   } catch {
     return [];
+  }
+}
+
+export async function getModeratorRecommendationsForAdmin() {
+  try {
+    return await prisma.moderatorRecommendation.findMany({
+      include: {
+        moderator: {
+          select: { name: true, email: true, role: true },
+        },
+        user: {
+          select: { id: true, name: true, email: true, role: true },
+        },
+        reviewedBy: {
+          select: { name: true, email: true },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getSiteSettings() {
+  try {
+    const settings = await prisma.siteSetting.findMany();
+
+    return Object.fromEntries(settings.map((setting) => [setting.key, setting.value]));
+  } catch {
+    return {};
   }
 }
 

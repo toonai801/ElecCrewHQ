@@ -1,9 +1,15 @@
 import { MessageCircle } from "lucide-react";
 import { Section } from "@/components/section";
+import { getSiteSettings } from "@/lib/content";
 import { discordInviteUrl } from "@/lib/sample-data";
 
-export default function DiscordPage() {
-  const widgetId = process.env.NEXT_PUBLIC_DISCORD_WIDGET_ID;
+export default async function DiscordPage() {
+  const settings = await getSiteSettings();
+  const inviteUrl = typeof settings.discordInviteUrl === "string" && settings.discordInviteUrl ? settings.discordInviteUrl : discordInviteUrl;
+  const widgetId =
+    typeof settings.discordWidgetId === "string" && settings.discordWidgetId
+      ? settings.discordWidgetId
+      : process.env.NEXT_PUBLIC_DISCORD_WIDGET_ID;
 
   return (
     <Section eyebrow="Discord" title="Join the Electric Crew Discord">
@@ -13,7 +19,7 @@ export default function DiscordPage() {
           <p className="text-lg leading-8 text-white/72">
             Discord is the home for event details, RSVP updates, crew announcements, beta access, and future account connection.
           </p>
-          <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan mt-6 inline-flex px-5 py-3 font-black">
+          <a href={inviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan mt-6 inline-flex px-5 py-3 font-black">
             Open Discord Invite
           </a>
         </div>

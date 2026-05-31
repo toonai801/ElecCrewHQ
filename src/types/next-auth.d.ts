@@ -5,6 +5,7 @@ declare module "next-auth/jwt" {
     id?: string;
     role?: RoleName;
     avatarUrl?: string | null;
+    bio?: string | null;
     isBetaAllowed?: boolean;
   }
 }
@@ -17,6 +18,7 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       avatarUrl?: string | null;
+      bio?: string | null;
       role: RoleName;
       isBetaAllowed: boolean;
     };
@@ -25,6 +27,7 @@ declare module "next-auth" {
   interface User {
     role: RoleName;
     avatarUrl?: string | null;
+    bio?: string | null;
     isBetaAllowed: boolean;
   }
 }

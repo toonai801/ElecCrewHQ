@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { canAutoApprovePosts, requireRole } from "@/lib/permissions";
+import { canAutoApprovePosts, hasRole, requireRole } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import { communityPostSchema, profileSchema } from "@/lib/validators";
 
@@ -34,6 +34,20 @@ export async function updateProfile(formData: FormData) {
 
 export async function createCommunityPost(formData: FormData) {
   const { session, role } = await requireRole(["TOON", "ADMIN", "MODERATOR", "TRUSTED_CREW", "MEMBER"]);
+  const settings = await prisma.siteSetting.findMany({
+    where: {
+      key: {
+        in: ["communityPostingLocked", "trustedCrewAutoApprove"],
+      },
+    },
+  });
+  const settingMap = Object.fromEntries(settings.map((setting) => [setting.key, setting.value]));
+  const postingLocked = settingMap.communityPostingLocked === true;
+  const trustedAutoApprove = settingMap.trustedCrewAutoApprove !== false;
+
+  if (postingLocked && !hasRole(role, ["TOON", "ADMIN", "MODERATOR"])) {
+    redirect("/account?error=posting-locked");
+  }
 
   const parsed = communityPostSchema.safeParse({
     title: formData.get("title"),
@@ -50,7 +64,7 @@ export async function createCommunityPost(formData: FormData) {
     redirect("/account?error=invalid-post");
   }
 
-  const autoApproved = canAutoApprovePosts(role);
+  const autoApproved = canAutoApprovePosts(role) && (trustedAutoApprove || hasRole(role, ["TOON", "ADMIN", "MODERATOR"]));
 
   await prisma.communityPost.create({
     data: {

@@ -89,6 +89,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role;
         token.avatarUrl = user.avatarUrl || user.image || null;
+        token.bio = "bio" in user && typeof user.bio === "string" ? user.bio : null;
         token.isBetaAllowed = user.isBetaAllowed;
       }
 
@@ -99,6 +100,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = String(token.id);
         session.user.role = token.role as typeof session.user.role;
         session.user.avatarUrl = typeof token.avatarUrl === "string" ? token.avatarUrl : null;
+        session.user.bio = typeof token.bio === "string" ? token.bio : null;
         session.user.isBetaAllowed = Boolean(token.isBetaAllowed);
       }
 

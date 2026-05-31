@@ -12,14 +12,20 @@ import {
 import { EventCard } from "@/components/event-card";
 import { PostCard } from "@/components/post-card";
 import { Section } from "@/components/section";
-import { getApprovedCommunityPosts, getPublishedEvents } from "@/lib/content";
+import { getApprovedCommunityPosts, getPublishedEvents, getSiteSettings } from "@/lib/content";
 import { discordInviteUrl, galleryItems } from "@/lib/sample-data";
 
 export default async function HomePage() {
-  const [events, posts] = await Promise.all([
+  const [events, posts, settings] = await Promise.all([
     getPublishedEvents(),
     getApprovedCommunityPosts(),
+    getSiteSettings(),
   ]);
+  const inviteUrl = typeof settings.discordInviteUrl === "string" && settings.discordInviteUrl ? settings.discordInviteUrl : discordInviteUrl;
+  const announcement =
+    typeof settings.homepageAnnouncement === "string" && settings.homepageAnnouncement
+      ? settings.homepageAnnouncement
+      : null;
 
   return (
     <>
@@ -50,7 +56,7 @@ export default async function HomePage() {
                   <Link href="/events" className="ec-button-primary px-5 py-3">
                     View Events
                   </Link>
-                  <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan px-5 py-3 font-black">
+                  <a href={inviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan px-5 py-3 font-black">
                     Join Discord
                   </a>
                   <Link href="/community" className="ec-button-ghost px-5 py-3 font-black">
@@ -58,6 +64,12 @@ export default async function HomePage() {
                   </Link>
                 </div>
               </div>
+
+              {announcement ? (
+                <div className="ec-hud border border-[color:rgba(57,255,136,0.35)] bg-[color:rgba(57,255,136,0.08)] p-4 text-sm font-bold leading-6 text-white/80">
+                  {announcement}
+                </div>
+              ) : null}
 
               <div className="grid gap-3 sm:grid-cols-3">
                 {[

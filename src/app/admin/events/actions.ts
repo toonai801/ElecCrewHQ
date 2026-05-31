@@ -77,6 +77,51 @@ export async function updateOfficialEventStatus(formData: FormData) {
   revalidatePath("/admin/events");
 }
 
+export async function updateOfficialEvent(formData: FormData) {
+  await requireRole(["TOON", "ADMIN"]);
+
+  const id = String(formData.get("id") || "");
+  const parsed = officialEventSchema.safeParse({
+    title: formData.get("title"),
+    slug: formData.get("slug"),
+    description: formData.get("description"),
+    eventDate: formData.get("eventDate"),
+    location: formData.get("location"),
+    host: formData.get("host"),
+    flyerImageUrl: formData.get("flyerImageUrl"),
+    flyerAlt: formData.get("flyerAlt"),
+    discordUrl: formData.get("discordUrl"),
+    rsvpUrl: formData.get("rsvpUrl"),
+    isFeatured: formData.get("isFeatured") === "on",
+    status: formData.get("status") || "DRAFT",
+  });
+
+  if (!id || !parsed.success) {
+    redirect("/admin/events?error=invalid-event-update");
+  }
+
+  const event = await prisma.officialEvent.update({
+    where: { id },
+    data: {
+      ...parsed.data,
+      flyerImageUrl: parsed.data.flyerImageUrl || fallbackFlyer,
+      flyerAlt: parsed.data.flyerAlt || parsed.data.title,
+      discordUrl: parsed.data.discordUrl || null,
+      rsvpUrl: parsed.data.rsvpUrl || null,
+    },
+  });
+
+  if (event.status === "PUBLISHED" && formData.get("announceToDiscord") === "on") {
+    await announceOfficialEvent(event);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/events");
+  revalidatePath(`/events/${event.slug}`);
+  revalidatePath("/admin/events");
+  redirect("/admin/events?updated=1");
+}
+
 export async function toggleOfficialEventFeatured(formData: FormData) {
   await requireRole(["TOON", "ADMIN"]);
 
