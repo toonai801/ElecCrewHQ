@@ -1,5 +1,14 @@
 import type { RoleName } from "@/lib/sample-data";
 
+declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+    role?: RoleName;
+    avatarUrl?: string | null;
+    isBetaAllowed?: boolean;
+  }
+}
+
 declare module "next-auth" {
   interface Session {
     user: {

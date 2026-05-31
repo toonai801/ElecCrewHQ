@@ -1,9 +1,11 @@
+import { BetaLoginForm } from "@/components/beta-login-form";
 import { Section } from "@/components/section";
 import { isBetaLockEnabled } from "@/lib/beta-lock";
 
 export default function LoginPage() {
   const locked = isBetaLockEnabled();
   const discordConfigured = Boolean(process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET);
+  const betaCredentialsConfigured = Boolean(process.env.BETA_ADMIN_EMAIL && process.env.BETA_ADMIN_PASSWORD);
 
   return (
     <Section eyebrow="Login" title={locked ? "Beta access is locked" : "Log in to Electric Crew"}>
@@ -11,7 +13,9 @@ export default function LoginPage() {
         <p className="text-lg leading-8">
           Account, profile, posting, and admin systems are in place. During beta, only TOON and explicitly allowed admin accounts can access protected areas.
         </p>
-        {discordConfigured ? (
+        {betaCredentialsConfigured ? (
+          <BetaLoginForm />
+        ) : discordConfigured ? (
           <form className="mt-6" action="/api/auth/signin/discord" method="get">
             <button className="ec-button-cyan px-5 py-3 font-black" type="submit">
               Continue with Discord
