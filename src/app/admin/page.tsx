@@ -8,14 +8,14 @@ export default async function AdminPage() {
 
   return (
     <Section eyebrow="Admin" title="Electric Crew control room">
-      <div className="mb-8 rounded-lg border border-yellow-300/20 bg-yellow-300/10 p-5 text-yellow-50">
+      <div className="ec-panel ec-accent-warning mb-8 rounded-lg p-5 text-[color:var(--ec-muted)]">
         Current role: {role}. TOON has full control. Admins can manage events, users, posts, and trusted status. Moderators can manage community posts and recommendations.
       </div>
       <div className="grid gap-5 lg:grid-cols-3">
         <ActionCard title="Official events">
           Create, edit, publish, archive, feature, attach flyer images, and optionally announce published events through the private Discord webhook.
           <div className="mt-4">
-            <Link className="font-bold text-yellow-200 hover:text-white" href="/admin/events">
+            <Link className="font-bold text-[color:var(--ec-orange)] hover:text-white" href="/admin/events">
               Manage events
             </Link>
           </div>

@@ -31,7 +31,7 @@ export default async function AdminEventsPage() {
               <input type="checkbox" /> Announce to Discord
             </label>
           </div>
-          <button className="rounded-md bg-yellow-300 px-4 py-3 font-black text-black" type="button">
+          <button className="ec-button-primary px-4 py-3" type="button">
             Save event
           </button>
         </form>

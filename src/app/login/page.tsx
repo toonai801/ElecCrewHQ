@@ -13,12 +13,12 @@ export default function LoginPage() {
         </p>
         {discordConfigured ? (
           <form className="mt-6" action="/api/auth/signin/discord" method="get">
-            <button className="rounded-md bg-yellow-300 px-5 py-3 font-black text-black hover:bg-white" type="submit">
+            <button className="ec-button-cyan px-5 py-3 font-black" type="submit">
               Continue with Discord
             </button>
           </form>
         ) : (
-          <div className="mt-6 rounded-md border border-yellow-300/20 bg-yellow-300/10 p-4 text-sm text-yellow-50">
+          <div className="ec-panel ec-accent-discord mt-6 rounded-md p-4 text-sm text-[color:var(--ec-muted)]">
             Configure DISCORD_CLIENT_ID and DISCORD_CLIENT_SECRET to enable Discord OAuth.
           </div>
         )}

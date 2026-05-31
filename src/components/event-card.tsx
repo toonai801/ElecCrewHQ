@@ -18,7 +18,7 @@ type EventCardProps = {
 
 export function EventCard({ event }: EventCardProps) {
   return (
-    <article className="ec-panel overflow-hidden rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.10)]">
+    <article className="ec-panel ec-accent-events overflow-hidden rounded-lg shadow-[0_0_30px_rgba(255,138,31,0.10)]">
       <div className="relative aspect-[16/10]">
         <Image src={event.flyerImageUrl} alt={event.flyerAlt || event.title} fill className="object-cover" sizes="(min-width: 1024px) 33vw, 100vw" />
         {event.isFeatured ? (
@@ -32,11 +32,11 @@ export function EventCard({ event }: EventCardProps) {
         <p className="ec-text-muted text-sm leading-6">{event.description}</p>
         <dl className="ec-text-muted grid gap-2 text-sm">
           <div className="flex gap-2">
-            <CalendarDays className="mt-0.5 size-4 text-[color:var(--ec-cyan)]" />
+            <CalendarDays className="mt-0.5 size-4 text-[color:var(--ec-orange)]" />
             <dd>{event.eventDate.toLocaleString()}</dd>
           </div>
           <div className="flex gap-2">
-            <MapPin className="mt-0.5 size-4 text-[color:var(--ec-magenta)]" />
+            <MapPin className="mt-0.5 size-4 text-[color:var(--ec-yellow)]" />
             <dd>{event.location}</dd>
           </div>
           <div className="flex gap-2">

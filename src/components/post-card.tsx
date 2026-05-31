@@ -16,7 +16,7 @@ type PostCardProps = {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <article className="ec-panel-strong rounded-lg p-5">
+    <article className="ec-panel-strong ec-accent-community rounded-lg p-5">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <span className={postTypeTone[post.postType] || "ec-badge-cyan"}>{post.postType}</span>
         <span className="ec-text-soft text-xs">

@@ -8,12 +8,12 @@ export default function DiscordPage() {
   return (
     <Section eyebrow="Discord" title="Join the Electric Crew Discord">
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
-          <MessageCircle className="mb-4 size-8 text-cyan-200" />
+        <div className="ec-panel ec-accent-discord rounded-lg p-6">
+          <MessageCircle className="mb-4 size-8 text-[color:var(--ec-blue)]" />
           <p className="text-lg leading-8 text-white/72">
             Discord is the home for event details, RSVP updates, crew announcements, beta access, and future account connection.
           </p>
-          <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex rounded-md bg-yellow-300 px-5 py-3 font-black text-black hover:bg-white">
+          <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan mt-6 inline-flex px-5 py-3 font-black">
             Open Discord Invite
           </a>
         </div>

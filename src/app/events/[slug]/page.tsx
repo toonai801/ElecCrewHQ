@@ -17,7 +17,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         <EventCard event={event} />
         <div className="space-y-5 text-white/72">
           <p className="text-lg leading-8">{event.description}</p>
-          <a className="inline-flex rounded-md bg-yellow-300 px-5 py-3 font-black text-black hover:bg-white" href={event.rsvpUrl || event.discordUrl} target="_blank" rel="noreferrer">
+          <a className="ec-button-primary inline-flex px-5 py-3" href={event.rsvpUrl || event.discordUrl} target="_blank" rel="noreferrer">
             RSVP or get Discord details
           </a>
         </div>

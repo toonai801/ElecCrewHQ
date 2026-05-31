@@ -103,6 +103,36 @@ body::before {
   background: rgba(34, 211, 238, 0.10);
 }
 
+.ec-accent-community {
+  border-color: rgba(168, 85, 247, 0.28);
+  background: rgba(168, 85, 247, 0.08);
+}
+
+.ec-accent-events {
+  border-color: rgba(255, 138, 31, 0.28);
+  background: rgba(255, 138, 31, 0.08);
+}
+
+.ec-accent-discord {
+  border-color: rgba(79, 140, 255, 0.30);
+  background: rgba(79, 140, 255, 0.08);
+}
+
+.ec-accent-gallery {
+  border-color: rgba(236, 72, 153, 0.28);
+  background: rgba(236, 72, 153, 0.08);
+}
+
+.ec-accent-trusted {
+  border-color: rgba(57, 255, 136, 0.26);
+  background: rgba(57, 255, 136, 0.08);
+}
+
+.ec-accent-warning {
+  border-color: rgba(255, 75, 75, 0.28);
+  background: rgba(255, 75, 75, 0.08);
+}
+
 .ec-badge-red,
 .ec-badge-orange,
 .ec-badge-cyan,

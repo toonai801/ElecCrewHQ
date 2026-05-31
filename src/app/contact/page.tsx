@@ -8,7 +8,7 @@ export default function ContactPage() {
         <p>
           For booking, moderation questions, flyer submissions, or partnership ideas, start in Discord so the right TOON/admin/mod can route it.
         </p>
-        <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="mt-6 inline-flex rounded-md bg-yellow-300 px-5 py-3 font-black text-black hover:bg-white">
+        <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan mt-6 inline-flex px-5 py-3 font-black">
           Contact through Discord
         </a>
       </div>

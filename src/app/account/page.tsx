@@ -7,7 +7,7 @@ export default async function AccountPage() {
 
   return (
     <Section eyebrow="Account" title="Profile dashboard">
-      <div className="mb-8 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-5 text-white/72">
+      <div className="ec-panel ec-accent-trusted mb-8 rounded-lg p-5 text-[color:var(--ec-muted)]">
         Signed in as {session.user.name || session.user.email || "Electric Crew member"} with role {session.user.role}.
       </div>
       <div className="grid gap-5 lg:grid-cols-3">
