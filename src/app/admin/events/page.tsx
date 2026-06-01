@@ -70,7 +70,7 @@ export default async function AdminEventsPage() {
         </form>
 
         <div className="grid gap-4">
-          {events.map((event) => (
+          {events.length ? events.map((event) => (
             <ActionCard key={event.id} title={event.title}>
               <div className="space-y-4">
                 <p>
@@ -130,7 +130,11 @@ export default async function AdminEventsPage() {
                 </details>
               </div>
             </ActionCard>
-          ))}
+          )) : (
+            <div className="ec-panel rounded-lg p-5 text-[color:var(--ec-muted)]">
+              No events created yet.
+            </div>
+          )}
         </div>
       </div>
     </Section>

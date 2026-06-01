@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sampleEvents, samplePosts } from "@/lib/sample-data";
+import { samplePosts } from "@/lib/sample-data";
 
 export async function getPublishedEvents() {
   try {
@@ -13,9 +13,9 @@ export async function getPublishedEvents() {
       ],
     });
 
-    return events.length ? events : sampleEvents;
+    return events;
   } catch {
-    return sampleEvents;
+    return [];
   }
 }
 
@@ -25,9 +25,9 @@ export async function getEventBySlug(slug: string) {
       where: { slug },
     });
 
-    return event ?? sampleEvents.find((item) => item.slug === slug) ?? null;
+    return event ?? null;
   } catch {
-    return sampleEvents.find((item) => item.slug === slug) ?? null;
+    return null;
   }
 }
 
@@ -66,7 +66,7 @@ export async function getAllOfficialEventsForAdmin() {
       ],
     });
   } catch {
-    return sampleEvents;
+    return [];
   }
 }
 
