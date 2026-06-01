@@ -4,23 +4,13 @@ import {
   CalendarDays,
   ImageIcon,
   MessageCircle,
-  Radio,
-  ShieldCheck,
-  Sparkles,
   Users,
 } from "lucide-react";
-import { EventCard } from "@/components/event-card";
-import { PostCard } from "@/components/post-card";
-import { Section } from "@/components/section";
-import { getApprovedCommunityPosts, getPublishedEvents, getSiteSettings } from "@/lib/content";
-import { discordInviteUrl, galleryItems } from "@/lib/sample-data";
+import { getSiteSettings } from "@/lib/content";
+import { discordInviteUrl } from "@/lib/sample-data";
 
 export default async function HomePage() {
-  const [events, posts, settings] = await Promise.all([
-    getPublishedEvents(),
-    getApprovedCommunityPosts(),
-    getSiteSettings(),
-  ]);
+  const settings = await getSiteSettings();
   const inviteUrl = typeof settings.discordInviteUrl === "string" && settings.discordInviteUrl ? settings.discordInviteUrl : discordInviteUrl;
   const announcement =
     typeof settings.homepageAnnouncement === "string" && settings.homepageAnnouncement
@@ -140,48 +130,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <Section eyebrow="Community feed" title="Featured approved posts">
-        <div className="mb-8 grid gap-4 md:grid-cols-3">
-          {[
-            { icon: ShieldCheck, label: "Safer posting", copy: "Member posts queue for approval after beta.", accent: "ec-accent-trusted" },
-            { icon: Radio, label: "Crew updates", copy: "Events, flyers, VR photos, links, and tags.", accent: "ec-accent-community" },
-            { icon: Sparkles, label: "Trusted signal", copy: "TRUSTED_CREW can auto-approve when unlocked.", accent: "ec-accent-gallery" },
-          ].map((item) => (
-            <div key={item.label} className={`ec-panel ec-hud rounded-lg p-5 ${item.accent}`}>
-              <item.icon className="mb-3 size-5 text-white" />
-              <h3 className="font-black text-white">{item.label}</h3>
-              <p className="ec-text-muted mt-2 text-sm leading-6">{item.copy}</p>
-            </div>
-          ))}
-        </div>
-        <div className="grid gap-5 lg:grid-cols-2">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      </Section>
-
-      <Section eyebrow="Official events" title="Electric Crew nights">
-        <div className="grid gap-5 lg:grid-cols-2">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
-      </Section>
-
-      <Section eyebrow="Gallery" title="Flyers and VR photo drops">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {galleryItems.slice(0, 3).map((item) => (
-            <a key={item.id} href={item.imageUrl} target="_blank" rel="noreferrer" className="ec-panel ec-accent-gallery ec-card-hover ec-hud group rounded-lg p-3">
-              <div className="relative aspect-square overflow-hidden rounded-md">
-                <Image src={item.imageUrl} alt={item.imageAlt || item.title} fill className="object-cover saturate-150 group-hover:scale-105" sizes="(min-width: 1024px) 33vw, 100vw" />
-              </div>
-              <p className="mt-3 font-bold text-white">{item.title}</p>
-              <p className="text-sm text-[color:var(--ec-magenta)]">{item.tag}</p>
-            </a>
-          ))}
-        </div>
-      </Section>
     </>
   );
 }
