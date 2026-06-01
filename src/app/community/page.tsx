@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PostCard } from "@/components/post-card";
-import { Section } from "@/components/section";
 import { auth } from "@/lib/auth";
 import { getApprovedCommunityPosts } from "@/lib/content";
 
@@ -8,25 +7,26 @@ export default async function CommunityPage() {
   const [posts, session] = await Promise.all([getApprovedCommunityPosts(), auth()]);
 
   return (
-    <Section eyebrow="Community feed" title="A safer Electric Crew social layer">
-      <div className="mb-8 grid gap-4 md:grid-cols-2">
-        <p className="ec-text-muted text-lg leading-8">
-          The feed is designed for event info, flyers, VR photos, text updates, links, and tags. During beta, public member posting is locked.
-        </p>
-        <div className="ec-panel ec-accent-community rounded-lg p-5 text-sm leading-6 text-[color:var(--ec-muted)]">
-          MEMBER posts default to pending after beta. TRUSTED_CREW can auto-approve. Mods and admins can approve, reject, or remove content server-side.
-          <div className="mt-4">
-            <Link href={session ? "/add-post" : "/login"} className="ec-button-primary px-4 py-2 text-sm">
-              Add post
-            </Link>
-          </div>
+    <section className="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="max-w-3xl">
+          <h2 className="text-3xl font-black text-white sm:text-4xl">Electric Crew Social</h2>
+          <div className="mt-5 h-px w-28 rounded-full bg-[color:rgba(245,197,66,0.55)]" />
         </div>
+        <Link href={session ? "/add-post" : "/login"} className="ec-button-primary px-4 py-2 text-sm">
+          Add post
+        </Link>
       </div>
-      <div className="grid gap-5 lg:grid-cols-2">
+
+      <p className="mx-auto mb-8 max-w-3xl text-lg leading-8 text-[color:var(--ec-muted)]">
+        The feed is designed for event info, flyers, VR photos, text updates, links, and tags. During beta, public member posting is locked and must be approved.
+      </p>
+
+      <div className="mx-auto grid max-w-3xl gap-5">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
-    </Section>
+    </section>
   );
 }
