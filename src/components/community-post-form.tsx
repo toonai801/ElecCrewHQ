@@ -2,10 +2,10 @@ import { createCommunityPost } from "@/app/account/actions";
 import { communityTagOptions } from "@/lib/validators";
 import { ImageUploadField } from "@/components/image-upload-field";
 
-export function CommunityPostForm() {
+export function CommunityPostForm({ framed = true }: { framed?: boolean }) {
   return (
-    <form action={createCommunityPost} className="ec-panel ec-accent-community rounded-lg p-5">
-      <h2 className="text-xl font-black text-white">Add community post</h2>
+    <form action={createCommunityPost} className={framed ? "ec-panel ec-accent-community rounded-lg p-5" : "grid gap-4"}>
+      {framed ? <h2 className="text-xl font-black text-white">Add community post</h2> : null}
       <div className="mt-4 grid gap-4">
         <label className="grid gap-2 text-sm font-bold text-white/80">
           Title
