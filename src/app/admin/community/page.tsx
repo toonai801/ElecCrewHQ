@@ -3,6 +3,24 @@ import { getAllCommunityPostsForAdmin } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
 import { deleteCommunityPost, updateCommunityPostStatus } from "@/app/admin/community/actions";
 
+const inactiveStatusButtonClass = "ec-button-ghost px-3 py-2 text-xs font-black";
+
+function communityStatusButtonClass(currentStatus: string, buttonStatus: string) {
+  if (currentStatus !== buttonStatus) {
+    return inactiveStatusButtonClass;
+  }
+
+  if (buttonStatus === "APPROVED") {
+    return "rounded-md border border-[color:rgba(57,255,136,0.75)] bg-[color:rgba(57,255,136,0.20)] px-3 py-2 text-xs font-black text-[color:var(--ec-green)] shadow-[0_0_20px_rgba(57,255,136,0.18)]";
+  }
+
+  if (buttonStatus === "REJECTED") {
+    return "rounded-md border border-[color:rgba(255,75,75,0.70)] bg-[color:rgba(255,75,75,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-red)] shadow-[0_0_20px_rgba(255,75,75,0.14)]";
+  }
+
+  return "rounded-md border border-[color:rgba(245,197,66,0.72)] bg-[color:rgba(245,197,66,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-gold)] shadow-[0_0_18px_rgba(245,197,66,0.14)]";
+}
+
 export default async function AdminCommunityPage() {
   await requireRole(["TOON", "ADMIN", "MODERATOR"]);
   const posts = await getAllCommunityPostsForAdmin();
@@ -27,7 +45,7 @@ export default async function AdminCommunityPage() {
                   <form key={status} action={updateCommunityPostStatus}>
                     <input name="id" type="hidden" value={post.id} />
                     <input name="status" type="hidden" value={status} />
-                    <button className="ec-button-ghost px-3 py-2 text-xs font-black" type="submit">
+                    <button className={communityStatusButtonClass(post.status, status)} type="submit">
                       {status}
                     </button>
                   </form>

@@ -11,6 +11,26 @@ import {
   updateOfficialEventStatus,
 } from "@/app/admin/events/actions";
 
+const inactiveStatusButtonClass = "ec-button-ghost px-3 py-2 text-xs font-black";
+const activeFeaturedButtonClass =
+  "rounded-md border border-[color:rgba(245,197,66,0.72)] bg-[color:rgba(245,197,66,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-gold)] shadow-[0_0_18px_rgba(245,197,66,0.14)]";
+
+function eventStatusButtonClass(currentStatus: string, buttonStatus: string) {
+  if (currentStatus !== buttonStatus) {
+    return inactiveStatusButtonClass;
+  }
+
+  if (buttonStatus === "PUBLISHED") {
+    return "rounded-md border border-[color:rgba(57,255,136,0.75)] bg-[color:rgba(57,255,136,0.20)] px-3 py-2 text-xs font-black text-[color:var(--ec-green)] shadow-[0_0_20px_rgba(57,255,136,0.18)]";
+  }
+
+  if (buttonStatus === "ARCHIVED") {
+    return "rounded-md border border-white/35 bg-white/10 px-3 py-2 text-xs font-black text-white/85 shadow-[0_0_18px_rgba(255,255,255,0.10)]";
+  }
+
+  return activeFeaturedButtonClass;
+}
+
 export default async function AdminEventsPage() {
   await requireRole(["TOON", "ADMIN"]);
   const events = await getAllOfficialEventsForAdmin();
@@ -81,7 +101,7 @@ export default async function AdminEventsPage() {
                     <form key={status} action={updateOfficialEventStatus}>
                       <input name="id" type="hidden" value={event.id} />
                       <input name="status" type="hidden" value={status} />
-                      <button className="ec-button-ghost px-3 py-2 text-xs font-black" type="submit">
+                      <button className={eventStatusButtonClass(event.status, status)} type="submit">
                         {status}
                       </button>
                     </form>
@@ -89,7 +109,7 @@ export default async function AdminEventsPage() {
                   <form action={toggleOfficialEventFeatured}>
                     <input name="id" type="hidden" value={event.id} />
                     <input name="isFeatured" type="hidden" value={String(event.isFeatured)} />
-                    <button className="ec-button-ghost px-3 py-2 text-xs font-black" type="submit">
+                    <button className={event.isFeatured ? activeFeaturedButtonClass : inactiveStatusButtonClass} type="submit">
                       {event.isFeatured ? "Unfeature" : "Feature"}
                     </button>
                   </form>
