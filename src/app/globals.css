@@ -224,6 +224,22 @@ body::after {
   color: transparent;
 }
 
+.ec-welcome-text {
+  background: linear-gradient(
+    90deg,
+    var(--ec-red) 0%,
+    var(--ec-orange) 16%,
+    var(--ec-yellow) 30%,
+    var(--ec-green) 44%,
+    var(--ec-cyan) 58%,
+    var(--ec-blue) 72%,
+    var(--ec-violet) 86%,
+    var(--ec-magenta) 100%
+  );
+  background-clip: text;
+  color: transparent;
+}
+
 .ec-spectrum-border {
   position: relative;
   overflow: hidden;
