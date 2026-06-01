@@ -26,8 +26,8 @@ export default async function HomePage() {
                       sizes="(min-width: 768px) 448px, 90vw"
                     />
                   </div>
-                  <div className="border-t border-white/10 bg-black/70 p-5 sm:p-6">
-                    <div className="mb-4 grid grid-cols-7 gap-1.5">
+                  <div className="border-t border-white/10 bg-black/70 p-5 text-center sm:p-6">
+                    <div className="mx-auto mb-4 grid max-w-xl grid-cols-7 gap-1.5">
                       {[
                         "bg-[color:var(--ec-red)]",
                         "bg-[color:var(--ec-orange)]",
