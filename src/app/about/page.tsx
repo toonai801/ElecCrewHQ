@@ -5,13 +5,23 @@ export default function AboutPage() {
     <Section eyebrow="About" title="Who Electric Crew VR is">
       <div className="max-w-4xl space-y-6 text-lg leading-8 text-white/72">
         <p>
-          Electric Crew VR is a music-forward VR community built around events, creativity, friendship, inclusion, and unforgettable rooms full of light.
+          A colorful VR community powered by friendship, chaos, music, gaming,
+          and unapologetic self-expression.
         </p>
         <p>
-          The crew hosts and promotes VR gatherings where DJs, performers, flyer artists, photographers, world explorers, and new friends can connect without needing to already know everybody in the room.
+          Electric Crew VR is an LGBTQ+ forward community built for people who
+          want more than just another VR group. We create spaces where everyone
+          can vibe, laugh, dance, game, socialize, and feel welcome exactly as
+          they are.
         </p>
         <p>
-          This site is structured so the copy, events, galleries, and community systems can be edited and expanded as the official home base grows.
+          From late-night hangouts and movie nights to live DJs, community
+          events, dance floors, and unforgettable VR adventures, Electric Crew is
+          all about good energy and genuine connection.
+        </p>
+        <p>
+          Whether you&apos;re here to meet people, express yourself, party with
+          the crew, or just escape reality for a while, you belong here.
         </p>
       </div>
     </Section>

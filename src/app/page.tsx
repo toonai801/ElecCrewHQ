@@ -40,37 +40,10 @@ export default async function HomePage() {
                         <span key={color} className={`h-1.5 rounded-full ${color}`} />
                       ))}
                     </div>
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55 sm:text-sm">
-                      Live crew signal
-                    </p>
-                    <p className="mt-2 text-2xl font-black leading-tight text-white sm:text-3xl">
-                      Music. Worlds. Photos. Chosen family.
+                    <p className="ec-spectrum-text mt-2 text-3xl font-black leading-tight sm:text-5xl">
+                      Welcome
                     </p>
                   </div>
-                </div>
-
-                <div className="mt-7 max-w-2xl space-y-5 text-lg leading-8 text-white/76 sm:text-xl sm:leading-9">
-                  <p>
-                    A colorful VR community powered by friendship, chaos, music,
-                    gaming, and unapologetic self-expression.
-                  </p>
-                  <p>
-                    Electric Crew VR is an LGBTQ+ forward community built for
-                    people who want more than just another VR group. We create
-                    spaces where everyone can vibe, laugh, dance, game,
-                    socialize, and feel welcome exactly as they are.
-                  </p>
-                  <p>
-                    From late-night hangouts and movie nights to live DJs,
-                    community events, dance floors, and unforgettable VR
-                    adventures, Electric Crew is all about good energy and
-                    genuine connection.
-                  </p>
-                  <p>
-                    Whether you&apos;re here to meet people, express yourself,
-                    party with the crew, or just escape reality for a while, you
-                    belong here.
-                  </p>
                 </div>
               </div>
 
