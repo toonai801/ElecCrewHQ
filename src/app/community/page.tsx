@@ -23,9 +23,13 @@ export default async function CommunityPage() {
       </p>
 
       <div className="mx-auto grid max-w-3xl gap-5">
-        {posts.map((post) => (
+        {posts.length ? posts.map((post) => (
           <PostCard key={post.id} post={post} />
-        ))}
+        )) : (
+          <div className="ec-panel ec-accent-community rounded-lg p-5 text-[color:var(--ec-muted)]">
+            No approved community posts yet.
+          </div>
+        )}
       </div>
     </section>
   );

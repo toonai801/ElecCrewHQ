@@ -80,6 +80,7 @@ model OfficialEvent {
   title          String
   slug           String      @unique
   description    String
+  eventTag       String      @default("Community Event")
   eventDate      DateTime
   location       String
   host           String
@@ -87,6 +88,7 @@ model OfficialEvent {
   flyerAlt       String?
   discordUrl     String?
   rsvpUrl        String?
+  isOfficial     Boolean     @default(false)
   isFeatured     Boolean     @default(false)
   status         EventStatus @default(DRAFT)
   createdById    String
@@ -104,6 +106,7 @@ model CommunityPost {
   imageAlt      String?
   externalUrl   String?
   tags          String[]
+  showInGallery Boolean        @default(false)
   status        PostStatus     @default(PENDING)
   visibility    PostVisibility @default(PUBLIC)
   authorId      String

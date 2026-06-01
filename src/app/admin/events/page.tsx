@@ -3,6 +3,7 @@ import { ImageUploadField } from "@/components/image-upload-field";
 import { Section } from "@/components/section";
 import { getAllOfficialEventsForAdmin } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
+import { eventTagOptions } from "@/lib/validators";
 import {
   createOfficialEvent,
   deleteOfficialEvent,
@@ -36,7 +37,7 @@ export default async function AdminEventsPage() {
   const events = await getAllOfficialEventsForAdmin();
 
   return (
-    <Section eyebrow="Admin events" title="Official event management">
+    <Section eyebrow="Admin events" title="Event management">
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <form action={createOfficialEvent} className="ec-panel ec-accent-events grid gap-4 rounded-lg p-5">
           {[
@@ -59,6 +60,16 @@ export default async function AdminEventsPage() {
               />
             </label>
           ))}
+          <label className="grid gap-2 text-sm font-bold text-white/80">
+            Event tag
+            <select name="eventTag" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-orange)]">
+              {eventTagOptions.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
+            </select>
+          </label>
           <ImageUploadField name="flyerImageUrl" label="Flyer image" accent="var(--ec-orange)" uploadType="adminEventFlyer" />
           <label className="grid gap-2 text-sm font-bold text-white/80">
             Description
@@ -78,8 +89,13 @@ export default async function AdminEventsPage() {
           </label>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex items-center gap-2 text-sm text-white/75">
+              <input name="isOfficial" type="checkbox" /> Official
+            </label>
+            <label className="flex items-center gap-2 text-sm text-white/75">
               <input name="isFeatured" type="checkbox" /> Featured
             </label>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex items-center gap-2 text-sm text-white/75">
               <input name="announceToDiscord" type="checkbox" /> Announce to Discord
             </label>
@@ -94,7 +110,7 @@ export default async function AdminEventsPage() {
             <ActionCard key={event.id} title={event.title}>
               <div className="space-y-4">
                 <p>
-                  {event.status} - {event.eventDate.toLocaleString()} - {event.location}
+                  {event.status} - {event.isOfficial ? "Official" : event.eventTag} - {event.eventDate.toLocaleString()} - {event.location}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["DRAFT", "PUBLISHED", "ARCHIVED"].map((status) => (
@@ -127,6 +143,13 @@ export default async function AdminEventsPage() {
                     <input name="title" defaultValue={event.title} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="slug" defaultValue={event.slug} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="eventDate" type="datetime-local" defaultValue={event.eventDate.toISOString().slice(0, 16)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <select name="eventTag" defaultValue={event.eventTag} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white">
+                      {eventTagOptions.map((tag) => (
+                        <option key={tag} value={tag}>
+                          {tag}
+                        </option>
+                      ))}
+                    </select>
                     <input name="host" defaultValue={event.host} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="location" defaultValue={event.location} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <ImageUploadField name="flyerImageUrl" label="Flyer image" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" uploadType="adminEventFlyer" />
@@ -139,6 +162,9 @@ export default async function AdminEventsPage() {
                       <option value="PUBLISHED">Published</option>
                       <option value="ARCHIVED">Archived</option>
                     </select>
+                    <label className="flex items-center gap-2 text-sm text-white/75">
+                      <input name="isOfficial" type="checkbox" defaultChecked={event.isOfficial} /> Official
+                    </label>
                     <label className="flex items-center gap-2 text-sm text-white/75">
                       <input name="isFeatured" type="checkbox" defaultChecked={event.isFeatured} /> Featured
                     </label>

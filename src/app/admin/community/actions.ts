@@ -34,6 +34,29 @@ export async function updateCommunityPostStatus(formData: FormData) {
   revalidatePath("/admin/community");
 }
 
+export async function toggleCommunityPostGallery(formData: FormData) {
+  const { role } = await requireRole(["TOON", "ADMIN", "MODERATOR"]);
+
+  if (!canModeratePosts(role)) {
+    redirect("/admin?error=forbidden");
+  }
+
+  const id = String(formData.get("id") || "");
+  const showInGallery = formData.get("showInGallery") === "true";
+
+  if (!id) {
+    redirect("/admin/community?error=missing-post");
+  }
+
+  await prisma.communityPost.update({
+    where: { id },
+    data: { showInGallery: !showInGallery },
+  });
+
+  revalidatePath("/gallery");
+  revalidatePath("/admin/community");
+}
+
 export async function deleteCommunityPost(formData: FormData) {
   const { role } = await requireRole(["TOON", "ADMIN", "MODERATOR"]);
 

@@ -1,9 +1,15 @@
 import { Section } from "@/components/section";
 import { getAllCommunityPostsForAdmin } from "@/lib/content";
 import { requireRole } from "@/lib/permissions";
-import { deleteCommunityPost, updateCommunityPostStatus } from "@/app/admin/community/actions";
+import {
+  deleteCommunityPost,
+  toggleCommunityPostGallery,
+  updateCommunityPostStatus,
+} from "@/app/admin/community/actions";
 
 const inactiveStatusButtonClass = "ec-button-ghost px-3 py-2 text-xs font-black";
+const activeGalleryButtonClass =
+  "rounded-md border border-[color:rgba(255,66,176,0.72)] bg-[color:rgba(255,66,176,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-magenta)] shadow-[0_0_18px_rgba(255,66,176,0.14)]";
 
 function communityStatusButtonClass(currentStatus: string, buttonStatus: string) {
   if (currentStatus !== buttonStatus) {
@@ -34,6 +40,7 @@ export default async function AdminCommunityPage() {
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[color:var(--ec-violet)]">
                   {post.postType} - {post.status} - {post.visibility}
+                  {post.showInGallery ? " - GALLERY" : ""}
                 </p>
                 <h2 className="mt-2 text-2xl font-black text-white">{post.title}</h2>
                 <p className="mt-2 text-sm text-[color:var(--ec-muted)]">
@@ -50,6 +57,15 @@ export default async function AdminCommunityPage() {
                     </button>
                   </form>
                 ))}
+                {post.postType === "PHOTO" && post.imageUrl && post.status === "APPROVED" ? (
+                  <form action={toggleCommunityPostGallery}>
+                    <input name="id" type="hidden" value={post.id} />
+                    <input name="showInGallery" type="hidden" value={String(post.showInGallery)} />
+                    <button className={post.showInGallery ? activeGalleryButtonClass : inactiveStatusButtonClass} type="submit">
+                      {post.showInGallery ? "In gallery" : "Add to gallery"}
+                    </button>
+                  </form>
+                ) : null}
                 <form action={deleteCommunityPost}>
                   <input name="id" type="hidden" value={post.id} />
                   <button className="rounded-md border border-[color:rgba(255,75,75,0.45)] px-3 py-2 text-xs font-black text-[color:var(--ec-red)]" type="submit">

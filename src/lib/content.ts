@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { samplePosts } from "@/lib/sample-data";
 
 export async function getPublishedEvents() {
   try {
@@ -51,9 +50,9 @@ export async function getApprovedCommunityPosts() {
       },
     });
 
-    return posts.length ? posts : samplePosts;
+    return posts;
   } catch {
-    return samplePosts;
+    return [];
   }
 }
 
@@ -177,27 +176,32 @@ export async function getSiteSettings() {
 }
 
 export async function getGalleryItems() {
-  const approvedPosts = await getApprovedCommunityPosts();
-  const publishedEvents = await getPublishedEvents();
+  try {
+    const galleryPosts = await prisma.communityPost.findMany({
+      where: {
+        status: "APPROVED",
+        visibility: "PUBLIC",
+        postType: "PHOTO",
+        showInGallery: true,
+        imageUrl: {
+          not: null,
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
 
-  return [
-    ...publishedEvents
-      .filter((event) => event.flyerImageUrl)
-      .map((event) => ({
-        id: `event-${event.id}`,
-        title: event.title,
-        imageUrl: event.flyerImageUrl,
-        imageAlt: event.flyerAlt || event.title,
-        tag: "Official event",
-      })),
-    ...approvedPosts
+    return galleryPosts
       .filter((post) => post.imageUrl)
       .map((post) => ({
         id: `post-${post.id}`,
         title: post.title,
         imageUrl: post.imageUrl || "",
         imageAlt: post.imageAlt || post.title,
-        tag: post.postType,
-      })),
-  ];
+        tag: "Community photo",
+      }));
+  } catch {
+    return [];
+  }
 }

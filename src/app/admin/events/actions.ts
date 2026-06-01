@@ -17,6 +17,7 @@ export async function createOfficialEvent(formData: FormData) {
     title: formData.get("title"),
     slug: formData.get("slug"),
     description: formData.get("description"),
+    eventTag: formData.get("eventTag") || "Community Event",
     eventDate: formData.get("eventDate"),
     location: formData.get("location"),
     host: formData.get("host"),
@@ -24,6 +25,7 @@ export async function createOfficialEvent(formData: FormData) {
     flyerAlt: formData.get("flyerAlt"),
     discordUrl: formData.get("discordUrl"),
     rsvpUrl: formData.get("rsvpUrl"),
+    isOfficial: formData.get("isOfficial") === "on",
     isFeatured: formData.get("isFeatured") === "on",
     status: formData.get("status") || "DRAFT",
   });
@@ -85,6 +87,7 @@ export async function updateOfficialEvent(formData: FormData) {
     title: formData.get("title"),
     slug: formData.get("slug"),
     description: formData.get("description"),
+    eventTag: formData.get("eventTag") || "Community Event",
     eventDate: formData.get("eventDate"),
     location: formData.get("location"),
     host: formData.get("host"),
@@ -92,6 +95,7 @@ export async function updateOfficialEvent(formData: FormData) {
     flyerAlt: formData.get("flyerAlt"),
     discordUrl: formData.get("discordUrl"),
     rsvpUrl: formData.get("rsvpUrl"),
+    isOfficial: formData.get("isOfficial") === "on",
     isFeatured: formData.get("isFeatured") === "on",
     status: formData.get("status") || "DRAFT",
   });

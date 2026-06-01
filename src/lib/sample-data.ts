@@ -30,6 +30,7 @@ export const sampleEvents = [
     slug: "neon-surge-friday",
     description:
       "A weekly Electric Crew VR rave with rotating DJs, photo moments, and a hosted after-hang.",
+    eventTag: "Party",
     eventDate: new Date("2026-06-05T20:00:00-06:00"),
     location: "Electric Crew Main Stage VR World",
     host: "TOON and guest DJs",
@@ -38,6 +39,7 @@ export const sampleEvents = [
     flyerAlt: "Neon concert lights over a crowded dance floor",
     discordUrl: discordInviteUrl,
     rsvpUrl: discordInviteUrl,
+    isOfficial: true,
     isFeatured: true,
     status: "PUBLISHED" as EventStatus,
   },
@@ -47,6 +49,7 @@ export const sampleEvents = [
     slug: "gold-circuit-open-decks",
     description:
       "Community DJ slots, flyer drops, and a friendly room for crews to connect.",
+    eventTag: "DJ Set",
     eventDate: new Date("2026-06-12T19:30:00-06:00"),
     location: "Electric Crew Clubhouse",
     host: "Electric Crew Mods",
@@ -55,6 +58,7 @@ export const sampleEvents = [
     flyerAlt: "Stage lights and hands raised at a live music event",
     discordUrl: discordInviteUrl,
     rsvpUrl: discordInviteUrl,
+    isOfficial: false,
     isFeatured: true,
     status: "PUBLISHED" as EventStatus,
   },
