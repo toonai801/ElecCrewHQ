@@ -46,17 +46,17 @@ export default async function HomePage() {
             </div>
 
             <div>
-              <div className="ec-hud relative min-h-[360px] overflow-hidden border border-white/10 bg-black">
+              <div className="ec-hud relative min-h-[490px] overflow-hidden border border-white/10 bg-black">
                 <Image
-                  src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1400&q=80"
-                  alt="Neon concert lights over a dance floor"
+                  src="/electric-crew-bolt-logo.png"
+                  alt="Electric Crew lightning bolt logo"
                   fill
                   priority
-                  className="object-cover opacity-70 saturate-150"
+                  className="object-contain p-8 sm:p-10"
                   sizes="(min-width: 1024px) 46vw, 100vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5">
+                <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black via-black/80 to-transparent" />
+                <div className="absolute bottom-7 left-5 right-5">
                   <div className="mb-4 grid grid-cols-7 gap-1">
                     {[
                       "bg-[color:var(--ec-red)]",
