@@ -47,7 +47,7 @@ export default async function AccountPage() {
             <p className="mt-3 text-sm leading-6 text-[color:var(--ec-muted)]">
               Add new posts from the community feed so posting happens in the right place.
             </p>
-            <Link href="/community/new" className="ec-button-cyan mt-4 inline-flex px-4 py-3 font-black">
+            <Link href="/add-post" className="ec-button-cyan mt-4 inline-flex px-4 py-3 font-black">
               Add post
             </Link>
           </div>
