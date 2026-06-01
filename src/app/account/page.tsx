@@ -31,7 +31,7 @@ export default async function AccountPage() {
                 Display name
                 <input name="name" defaultValue={displayName} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-green)]" />
               </label>
-              <ImageUploadField name="avatarUrl" label="Avatar image" defaultValue={avatarUrl} accent="var(--ec-green)" />
+              <ImageUploadField name="avatarUrl" label="Avatar image" defaultValue={avatarUrl} accent="var(--ec-green)" uploadType="avatar" />
               <label className="grid gap-2 text-sm font-bold text-white/80">
                 Bio
                 <textarea name="bio" defaultValue={bio} className="min-h-28 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-green)]" />

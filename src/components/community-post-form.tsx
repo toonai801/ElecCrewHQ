@@ -25,7 +25,14 @@ export function CommunityPostForm() {
           Body
           <textarea name="body" required className="min-h-32 rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />
         </label>
-        <ImageUploadField name="imageUrl" label="Post image" accent="var(--ec-violet)" />
+        <ImageUploadField
+          name="imageUrl"
+          label="Post image"
+          accent="var(--ec-violet)"
+          uploadType="community"
+          uploadTypeByPostType={{ EVENT: "flyer", FLYER: "flyer" }}
+          limitNote="JPG, PNG, WebP, or GIF. Photos max 5 MB. Flyers/event posters max 8 MB."
+        />
         <label className="grid gap-2 text-sm font-bold text-white/80">
           Image alt text
           <input name="imageAlt" className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-violet)]" />

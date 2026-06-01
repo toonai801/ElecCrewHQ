@@ -25,7 +25,6 @@ export default async function AdminEventsPage() {
             ["Date and time", "eventDate", "datetime-local"],
             ["Host/DJ/Performer", "host", "text"],
             ["VR world/location", "location", "text"],
-            ["Flyer image URL", "flyerImageUrl", "url"],
             ["Flyer alt text", "flyerAlt", "text"],
             ["Discord link", "discordUrl", "url"],
             ["RSVP link", "rsvpUrl", "url"],
@@ -40,6 +39,7 @@ export default async function AdminEventsPage() {
               />
             </label>
           ))}
+          <ImageUploadField name="flyerImageUrl" label="Flyer image" accent="var(--ec-orange)" uploadType="adminEventFlyer" />
           <label className="grid gap-2 text-sm font-bold text-white/80">
             Description
             <textarea
@@ -109,7 +109,7 @@ export default async function AdminEventsPage() {
                     <input name="eventDate" type="datetime-local" defaultValue={event.eventDate.toISOString().slice(0, 16)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="host" defaultValue={event.host} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="location" defaultValue={event.location} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
-                    <ImageUploadField name="flyerImageUrl" label="Flyer image" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" />
+                    <ImageUploadField name="flyerImageUrl" label="Flyer image" defaultValue={event.flyerImageUrl} accent="var(--ec-orange)" uploadType="adminEventFlyer" />
                     <input name="flyerAlt" defaultValue={event.flyerAlt || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="discordUrl" type="url" defaultValue={event.discordUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="rsvpUrl" type="url" defaultValue={event.rsvpUrl || ""} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />

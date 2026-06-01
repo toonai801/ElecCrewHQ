@@ -1,7 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { maxImageUploadBytes, maxImageUploadMegabytes, supportedImageTypeLabel, supportedImageTypes } from "@/lib/upload-limits";
+import { hasRole } from "@/lib/permissions";
+import {
+  defaultUploadType,
+  getUploadLimitBytes,
+  getUploadLimitMegabytes,
+  supportedImageTypeLabel,
+  supportedImageTypes,
+  uploadLimitMegabytes,
+  type UploadType,
+} from "@/lib/upload-limits";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -23,21 +32,32 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
   const file = formData.get("file");
+  const requestedUploadType = String(formData.get("uploadType") || defaultUploadType);
+  const uploadType = Object.keys(uploadLimitMegabytes).includes(requestedUploadType)
+    ? (requestedUploadType as UploadType)
+    : defaultUploadType;
 
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "No image file received." }, { status: 400 });
+  }
+
+  if (uploadType === "adminEventFlyer" && !hasRole(session.user.role, ["TOON", "ADMIN"])) {
+    return NextResponse.json({ error: "Admin event flyer uploads require admin access." }, { status: 403 });
   }
 
   if (!supportedImageTypes.includes(file.type)) {
     return NextResponse.json({ error: `Use ${supportedImageTypeLabel}.` }, { status: 400 });
   }
 
-  if (file.size > maxImageUploadBytes) {
-    return NextResponse.json({ error: `Image must be ${maxImageUploadMegabytes} MB or smaller.` }, { status: 400 });
+  const maxUploadBytes = getUploadLimitBytes(uploadType);
+  const maxUploadMegabytes = getUploadLimitMegabytes(uploadType);
+
+  if (file.size > maxUploadBytes) {
+    return NextResponse.json({ error: `Image must be ${maxUploadMegabytes} MB or smaller.` }, { status: 400 });
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "webp";
-  const path = `${session.user.id}/${crypto.randomUUID()}.${extension}`;
+  const path = `${uploadType}/${session.user.id}/${crypto.randomUUID()}.${extension}`;
   const supabase = createClient(supabaseUrl, serviceKey, {
     auth: { persistSession: false },
   });

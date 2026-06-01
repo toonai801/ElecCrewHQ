@@ -1,26 +1,58 @@
 "use client";
 
-import { useState, type ChangeEvent, type CSSProperties } from "react";
-import { maxImageUploadBytes, maxImageUploadMegabytes, supportedImageTypeLabel, supportedImageTypes } from "@/lib/upload-limits";
+import { useRef, useState, type ChangeEvent, type CSSProperties } from "react";
+import {
+  defaultUploadType,
+  getUploadLimitBytes,
+  getUploadLimitMegabytes,
+  supportedImageTypeLabel,
+  supportedImageTypes,
+  type UploadType,
+} from "@/lib/upload-limits";
 
 export function ImageUploadField({
   name,
   label,
   defaultValue = "",
   accent = "var(--ec-violet)",
+  uploadType = defaultUploadType,
+  uploadTypeByPostType,
+  limitNote,
 }: {
   name: string;
   label: string;
   defaultValue?: string | null;
   accent?: string;
+  uploadType?: UploadType;
+  uploadTypeByPostType?: Partial<Record<string, UploadType>>;
+  limitNote?: string;
 }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState(defaultValue || "");
   const [message, setMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
+  function getEffectiveUploadType() {
+    const form = rootRef.current?.closest("form");
+    const postType = form?.querySelector<HTMLSelectElement>('select[name="postType"]')?.value;
+
+    return (postType && uploadTypeByPostType?.[postType]) || uploadType;
+  }
+
+  function getEffectiveLimit() {
+    const effectiveUploadType = getEffectiveUploadType();
+
+    return {
+      uploadType: effectiveUploadType,
+      bytes: getUploadLimitBytes(effectiveUploadType),
+      megabytes: getUploadLimitMegabytes(effectiveUploadType),
+    };
+  }
+
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files?.[0] ?? null;
+    const limit = getEffectiveLimit();
 
     if (selectedFile && !supportedImageTypes.includes(selectedFile.type)) {
       setFile(null);
@@ -29,9 +61,9 @@ export function ImageUploadField({
       return;
     }
 
-    if (selectedFile && selectedFile.size > maxImageUploadBytes) {
+    if (selectedFile && selectedFile.size > limit.bytes) {
       setFile(null);
-      setMessage(`Image must be ${maxImageUploadMegabytes} MB or smaller.`);
+      setMessage(`Image must be ${limit.megabytes} MB or smaller.`);
       event.target.value = "";
       return;
     }
@@ -46,8 +78,10 @@ export function ImageUploadField({
       return;
     }
 
-    if (file.size > maxImageUploadBytes) {
-      setMessage(`Image must be ${maxImageUploadMegabytes} MB or smaller.`);
+    const limit = getEffectiveLimit();
+
+    if (file.size > limit.bytes) {
+      setMessage(`Image must be ${limit.megabytes} MB or smaller.`);
       return;
     }
 
@@ -56,6 +90,7 @@ export function ImageUploadField({
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("uploadType", limit.uploadType);
 
     const response = await fetch("/api/uploads", {
       method: "POST",
@@ -75,7 +110,7 @@ export function ImageUploadField({
   }
 
   return (
-    <div className="grid gap-2 text-sm font-bold text-white/80">
+    <div ref={rootRef} className="grid gap-2 text-sm font-bold text-white/80">
       <span>{label}</span>
       <input
         name={name}
@@ -100,7 +135,7 @@ export function ImageUploadField({
           {isUploading ? "Uploading..." : "Upload"}
         </button>
         <p className="text-xs text-white/45">
-          {supportedImageTypeLabel}. Max {maxImageUploadMegabytes} MB.
+          {limitNote || `${supportedImageTypeLabel}. Max ${getUploadLimitMegabytes(uploadType)} MB.`}
         </p>
         {value ? <p className="break-all text-xs text-[color:var(--ec-green)]">Image selected.</p> : null}
       </div>
