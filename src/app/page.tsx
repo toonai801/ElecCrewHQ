@@ -15,15 +15,6 @@ export default async function HomePage() {
           <div className="relative z-10 grid min-h-[680px] gap-8 p-5 sm:p-8 lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
             <div className="flex flex-col justify-between gap-10">
               <div>
-                <div className="mb-7 flex flex-wrap items-center gap-3">
-                  <span className="ec-hud border border-[color:rgba(245,197,66,0.55)] bg-[color:rgba(245,197,66,0.12)] px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-[color:var(--ec-gold)]">
-                    Official Electric Crew VR
-                  </span>
-                  <span className="ec-hud border border-[color:rgba(57,255,136,0.42)] bg-[color:rgba(57,255,136,0.09)] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[color:var(--ec-green)]">
-                    Admin beta online
-                  </span>
-                </div>
-
                 <h1 className="max-w-5xl text-5xl font-black leading-[0.92] text-white sm:text-7xl lg:text-8xl">
                   Electric Crew <span className="ec-spectrum-text">VR</span>
                 </h1>
