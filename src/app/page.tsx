@@ -1,17 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
-import {
-  CalendarDays,
-  ImageIcon,
-  MessageCircle,
-  Users,
-} from "lucide-react";
 import { getSiteSettings } from "@/lib/content";
-import { discordInviteUrl } from "@/lib/sample-data";
 
 export default async function HomePage() {
   const settings = await getSiteSettings();
-  const inviteUrl = typeof settings.discordInviteUrl === "string" && settings.discordInviteUrl ? settings.discordInviteUrl : discordInviteUrl;
   const announcement =
     typeof settings.homepageAnnouncement === "string" && settings.homepageAnnouncement
       ? settings.homepageAnnouncement
@@ -44,17 +35,6 @@ export default async function HomePage() {
                     you belong here.</p>
                 </div>
 
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link href="/events" className="ec-button-primary px-5 py-3">
-                    View Events
-                  </Link>
-                  <a href={inviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan px-5 py-3 font-black">
-                    Join Discord
-                  </a>
-                  <Link href="/community" className="ec-button-ghost px-5 py-3 font-black">
-                    Explore Community
-                  </Link>
-                </div>
               </div>
 
               {announcement ? (
@@ -63,21 +43,9 @@ export default async function HomePage() {
                 </div>
               ) : null}
 
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: "Mode", value: "Beta", tone: "text-[color:var(--ec-green)]" },
-                  { label: "Posting", value: "Moderated", tone: "text-[color:var(--ec-violet)]" },
-                  { label: "Signal", value: "Discord", tone: "text-[color:var(--ec-cyan)]" },
-                ].map((item) => (
-                  <div key={item.label} className="ec-hud border border-white/10 bg-black/50 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">{item.label}</p>
-                    <p className={`mt-2 text-2xl font-black ${item.tone}`}>{item.value}</p>
-                  </div>
-                ))}
-              </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-rows-[1fr_auto]">
+            <div>
               <div className="ec-hud relative min-h-[360px] overflow-hidden border border-white/10 bg-black">
                 <Image
                   src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1400&q=80"
@@ -109,21 +77,6 @@ export default async function HomePage() {
                     Music. Worlds. Photos. Chosen family.
                   </p>
                 </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  { icon: CalendarDays, label: "Events", value: "Official nights and RSVP links", accent: "ec-accent-events", iconColor: "text-[color:var(--ec-orange)]" },
-                  { icon: MessageCircle, label: "Discord", value: "Invite and announcement ready", accent: "ec-accent-discord", iconColor: "text-[color:var(--ec-blue)]" },
-                  { icon: Users, label: "Community", value: "Moderated feed foundation", accent: "ec-accent-community", iconColor: "text-[color:var(--ec-violet)]" },
-                  { icon: ImageIcon, label: "Gallery", value: "Flyers and VR photo drops", accent: "ec-accent-gallery", iconColor: "text-[color:var(--ec-magenta)]" },
-                ].map((item) => (
-                  <div key={item.label} className={`ec-panel ec-card-hover ec-hud rounded-lg p-5 ${item.accent}`}>
-                    <item.icon className={`mb-4 size-6 ${item.iconColor}`} />
-                    <h2 className="font-black text-white">{item.label}</h2>
-                    <p className="ec-text-muted mt-2 text-sm leading-6">{item.value}</p>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
