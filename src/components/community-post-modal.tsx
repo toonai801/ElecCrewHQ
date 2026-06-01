@@ -18,11 +18,9 @@ export function CommunityPostModal() {
       }
     }
 
-    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", closeOnEscape);
 
     return () => {
-      document.body.style.overflow = "";
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isOpen]);
@@ -34,10 +32,11 @@ export function CommunityPostModal() {
       </button>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/75 p-3 backdrop-blur-xl sm:p-6" role="dialog" aria-modal="true" aria-label="Add community post">
+        <div className="fixed inset-0 z-50 overflow-y-scroll bg-black/75 backdrop-blur-xl" role="dialog" aria-modal="true" aria-label="Add community post">
           <button className="fixed inset-0 cursor-default" type="button" aria-label="Close modal" onClick={() => setIsOpen(false)} />
-          <div className="ec-spectrum-border relative my-3 flex max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-white/10 bg-black shadow-[0_0_80px_rgba(166,95,255,0.25)] sm:my-6 sm:max-h-[calc(100dvh-3rem)]">
-            <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-5 py-4 backdrop-blur-xl">
+          <div className="relative z-10 mx-auto min-h-full w-full max-w-3xl px-3 py-4 sm:px-6 sm:py-8">
+            <div className="ec-spectrum-border overflow-hidden rounded-lg border border-white/10 bg-black shadow-[0_0_80px_rgba(166,95,255,0.25)]">
+              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/95 px-5 py-4 backdrop-blur-xl">
               <h2 className="text-lg font-black text-white">Add community post</h2>
               <button
                 type="button"
@@ -47,9 +46,10 @@ export function CommunityPostModal() {
               >
                 <X className="size-4" aria-hidden="true" />
               </button>
-            </div>
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 pb-8">
-              <CommunityPostForm framed={false} />
+              </div>
+              <div className="p-5 pb-10">
+                <CommunityPostForm framed={false} />
+              </div>
             </div>
           </div>
         </div>
