@@ -40,7 +40,7 @@ export default async function HomePage() {
                         <span key={color} className={`h-1.5 rounded-full ${color}`} />
                       ))}
                     </div>
-                    <p className="ec-spectrum-text mt-2 text-3xl font-black leading-tight sm:text-5xl">
+                    <p className="ec-spectrum-text mt-3 text-center text-6xl font-black leading-none sm:text-7xl lg:text-8xl">
                       Welcome
                     </p>
                   </div>
