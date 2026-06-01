@@ -46,11 +46,13 @@ export default async function HomePage() {
                 <h1 className="max-w-5xl text-5xl font-black leading-[0.92] text-white sm:text-7xl lg:text-8xl">
                   Electric Crew <span className="ec-spectrum-text">VR</span>
                 </h1>
-                <p className="mt-6 max-w-3xl text-xl leading-9 text-white/78">
-                  A pride-powered VR community command center for official
-                  events, approved crew posts, flyer drops, gallery moments, and
-                  Discord connection.
-                </p>
+                <div className="mt-6 max-w-3xl space-y-4 text-xl leading-9 text-white/78">
+                  <p>A colorful VR community powered by friendship, chaos, music, gaming, and unapologetic self-expression.</p>
+                  <p>Electric Crew VR is an LGBTQ+ forward community built for people who want more than just another VR group. We create spaces where everyone can vibe, laugh, dance, game, socialize, and feel welcome exactly as they are.</p>
+                  <p>From late-night hangouts and movie nights to live DJs, community events, dance floors, and unforgettable VR adventures, Electric Crew is all about good energy and genuine connection.</p>
+                  <p>Whether you&apos;re here to meet people, express yourself, party with the crew, or just escape reality for a while,
+                    you belong here.</p>
+                </div>
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link href="/events" className="ec-button-primary px-5 py-3">
