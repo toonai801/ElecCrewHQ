@@ -9,7 +9,6 @@ export const discordInviteUrl =
 export const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/mission", label: "Mission" },
   { href: "/events", label: "Events" },
   { href: "/community", label: "Community" },
   { href: "/gallery", label: "Gallery" },
