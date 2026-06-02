@@ -1,3 +1,4 @@
+import { DiscordLoginButton } from "@/components/discord-login-button";
 import { Section } from "@/components/section";
 import { isBetaLockEnabled } from "@/lib/beta-lock";
 
@@ -12,11 +13,7 @@ export default function LoginPage() {
           Sign in with Discord to join Electric Crew.
         </p>
         {discordConfigured ? (
-          <form className="mt-6" action="/api/auth/signin/discord" method="get">
-            <button className="ec-button-cyan px-5 py-3 font-black" type="submit">
-              Continue with Discord
-            </button>
-          </form>
+          <DiscordLoginButton />
         ) : (
           <div className="ec-panel ec-accent-discord mt-6 rounded-md p-4 text-sm text-[color:var(--ec-muted)]">
             Configure DISCORD_CLIENT_ID and DISCORD_CLIENT_SECRET to enable Discord OAuth.
