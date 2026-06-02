@@ -20,7 +20,7 @@ export async function SiteHeader() {
             <span className="block text-base font-black uppercase tracking-[0.24em] text-white">
               Electric Crew
             </span>
-            <span className="ec-spectrum-text text-sm font-black uppercase tracking-[0.18em]">VR community hub</span>
+            <span className="ec-spectrum-text text-sm font-black uppercase tracking-[0.18em]">Community hub</span>
           </span>
         </Link>
 
