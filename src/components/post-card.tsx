@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { togglePostReaction } from "@/app/community/actions";
 import { postTypeTone } from "@/lib/theme";
 
@@ -39,14 +38,13 @@ export function PostCard({ post, canReact = false }: PostCardProps) {
         </span>
       </div>
       {post.imageUrl ? (
-        <div className="relative mb-4 flex max-h-[760px] min-h-[260px] items-center justify-center overflow-hidden rounded-md border border-white/10 bg-black">
-          <Image
+        <div className="mb-4 rounded-md border border-white/10 bg-black">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={post.imageUrl}
             alt={post.imageAlt || post.title}
-            width={1200}
-            height={1200}
-            className="h-auto max-h-[760px] w-full object-contain saturate-150"
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="h-auto max-h-[900px] w-full rounded-md object-contain saturate-150"
+            loading="lazy"
           />
         </div>
       ) : null}
