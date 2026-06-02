@@ -225,21 +225,43 @@ body::after {
 }
 
 .ec-welcome-text {
-  background: linear-gradient(
-    90deg,
-    var(--ec-red) 0%,
-    var(--ec-orange) 16%,
-    var(--ec-yellow) 30%,
-    var(--ec-green) 44%,
-    var(--ec-cyan) 58%,
-    var(--ec-blue) 72%,
-    var(--ec-violet) 86%,
-    var(--ec-magenta) 100%
-  );
-  background-size: 220% 100%;
-  background-clip: text;
-  color: transparent;
-  animation: ec-welcome-shift 6s linear infinite;
+  display: flex;
+  justify-content: center;
+}
+
+.ec-welcome-letter {
+  background-color: transparent !important;
+  animation-duration: 3.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(7, end);
+}
+
+.ec-welcome-letter:nth-child(1) {
+  animation-name: ec-bar-shift-1;
+}
+
+.ec-welcome-letter:nth-child(2) {
+  animation-name: ec-bar-shift-2;
+}
+
+.ec-welcome-letter:nth-child(3) {
+  animation-name: ec-bar-shift-3;
+}
+
+.ec-welcome-letter:nth-child(4) {
+  animation-name: ec-bar-shift-4;
+}
+
+.ec-welcome-letter:nth-child(5) {
+  animation-name: ec-bar-shift-5;
+}
+
+.ec-welcome-letter:nth-child(6) {
+  animation-name: ec-bar-shift-6;
+}
+
+.ec-welcome-letter:nth-child(7) {
+  animation-name: ec-bar-shift-7;
 }
 
 .ec-spectrum-bar {
@@ -276,84 +298,74 @@ body::after {
   animation-name: ec-bar-shift-7;
 }
 
-@keyframes ec-welcome-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 220% 50%;
-  }
-}
-
 @keyframes ec-bar-shift-1 {
-  0%, 100% { background-color: var(--ec-red); }
-  14.285% { background-color: var(--ec-magenta); }
-  28.57% { background-color: var(--ec-blue); }
-  42.855% { background-color: var(--ec-cyan); }
-  57.14% { background-color: var(--ec-green); }
-  71.425% { background-color: var(--ec-yellow); }
-  85.71% { background-color: var(--ec-orange); }
+  0%, 100% { background-color: var(--ec-red); color: var(--ec-red); }
+  14.285% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  28.57% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  42.855% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  57.14% { background-color: var(--ec-green); color: var(--ec-green); }
+  71.425% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  85.71% { background-color: var(--ec-orange); color: var(--ec-orange); }
 }
 
 @keyframes ec-bar-shift-2 {
-  0%, 100% { background-color: var(--ec-orange); }
-  14.285% { background-color: var(--ec-red); }
-  28.57% { background-color: var(--ec-magenta); }
-  42.855% { background-color: var(--ec-blue); }
-  57.14% { background-color: var(--ec-cyan); }
-  71.425% { background-color: var(--ec-green); }
-  85.71% { background-color: var(--ec-yellow); }
+  0%, 100% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  14.285% { background-color: var(--ec-red); color: var(--ec-red); }
+  28.57% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  42.855% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  57.14% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  71.425% { background-color: var(--ec-green); color: var(--ec-green); }
+  85.71% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
 }
 
 @keyframes ec-bar-shift-3 {
-  0%, 100% { background-color: var(--ec-yellow); }
-  14.285% { background-color: var(--ec-orange); }
-  28.57% { background-color: var(--ec-red); }
-  42.855% { background-color: var(--ec-magenta); }
-  57.14% { background-color: var(--ec-blue); }
-  71.425% { background-color: var(--ec-cyan); }
-  85.71% { background-color: var(--ec-green); }
+  0%, 100% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  14.285% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  28.57% { background-color: var(--ec-red); color: var(--ec-red); }
+  42.855% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  57.14% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  71.425% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  85.71% { background-color: var(--ec-green); color: var(--ec-green); }
 }
 
 @keyframes ec-bar-shift-4 {
-  0%, 100% { background-color: var(--ec-green); }
-  14.285% { background-color: var(--ec-yellow); }
-  28.57% { background-color: var(--ec-orange); }
-  42.855% { background-color: var(--ec-red); }
-  57.14% { background-color: var(--ec-magenta); }
-  71.425% { background-color: var(--ec-blue); }
-  85.71% { background-color: var(--ec-cyan); }
+  0%, 100% { background-color: var(--ec-green); color: var(--ec-green); }
+  14.285% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  28.57% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  42.855% { background-color: var(--ec-red); color: var(--ec-red); }
+  57.14% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  71.425% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  85.71% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
 }
 
 @keyframes ec-bar-shift-5 {
-  0%, 100% { background-color: var(--ec-cyan); }
-  14.285% { background-color: var(--ec-green); }
-  28.57% { background-color: var(--ec-yellow); }
-  42.855% { background-color: var(--ec-orange); }
-  57.14% { background-color: var(--ec-red); }
-  71.425% { background-color: var(--ec-magenta); }
-  85.71% { background-color: var(--ec-blue); }
+  0%, 100% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  14.285% { background-color: var(--ec-green); color: var(--ec-green); }
+  28.57% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  42.855% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  57.14% { background-color: var(--ec-red); color: var(--ec-red); }
+  71.425% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  85.71% { background-color: var(--ec-blue); color: var(--ec-blue); }
 }
 
 @keyframes ec-bar-shift-6 {
-  0%, 100% { background-color: var(--ec-blue); }
-  14.285% { background-color: var(--ec-cyan); }
-  28.57% { background-color: var(--ec-green); }
-  42.855% { background-color: var(--ec-yellow); }
-  57.14% { background-color: var(--ec-orange); }
-  71.425% { background-color: var(--ec-red); }
-  85.71% { background-color: var(--ec-magenta); }
+  0%, 100% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  14.285% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  28.57% { background-color: var(--ec-green); color: var(--ec-green); }
+  42.855% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  57.14% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  71.425% { background-color: var(--ec-red); color: var(--ec-red); }
+  85.71% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
 }
 
 @keyframes ec-bar-shift-7 {
-  0%, 100% { background-color: var(--ec-magenta); }
-  14.285% { background-color: var(--ec-blue); }
-  28.57% { background-color: var(--ec-cyan); }
-  42.855% { background-color: var(--ec-green); }
-  57.14% { background-color: var(--ec-yellow); }
-  71.425% { background-color: var(--ec-orange); }
-  85.71% { background-color: var(--ec-red); }
+  0%, 100% { background-color: var(--ec-magenta); color: var(--ec-magenta); }
+  14.285% { background-color: var(--ec-blue); color: var(--ec-blue); }
+  28.57% { background-color: var(--ec-cyan); color: var(--ec-cyan); }
+  42.855% { background-color: var(--ec-green); color: var(--ec-green); }
+  57.14% { background-color: var(--ec-yellow); color: var(--ec-yellow); }
+  71.425% { background-color: var(--ec-orange); color: var(--ec-orange); }
+  85.71% { background-color: var(--ec-red); color: var(--ec-red); }
 }
 
 .ec-spectrum-border {

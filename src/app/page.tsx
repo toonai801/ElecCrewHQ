@@ -40,8 +40,12 @@ export default async function HomePage() {
                         <span key={color} className={`ec-spectrum-bar h-1.5 rounded-full ${color}`} />
                       ))}
                     </div>
-                    <p className="ec-welcome-text mt-3 text-center text-6xl font-black leading-none sm:text-7xl lg:text-8xl">
-                      Welcome
+                    <p className="ec-welcome-text mt-3 text-center text-6xl font-black leading-none sm:text-7xl lg:text-8xl" aria-label="Welcome">
+                      {"Welcome".split("").map((letter, index) => (
+                        <span key={`${letter}-${index}`} className="ec-welcome-letter" aria-hidden="true">
+                          {letter}
+                        </span>
+                      ))}
                     </p>
                   </div>
                 </div>
