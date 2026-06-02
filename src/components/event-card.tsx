@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, MapPin, Mic2 } from "lucide-react";
 import { setEventRsvp } from "@/app/events/actions";
@@ -32,17 +31,24 @@ const rsvpLabels = [
 export function EventCard({ event, canRsvp = false }: EventCardProps) {
   return (
     <article className="ec-panel ec-accent-events ec-card-hover ec-hud overflow-hidden rounded-lg shadow-[0_0_30px_rgba(255,138,31,0.18)]">
-      <div className="relative aspect-[16/10]">
-        <Image src={event.flyerImageUrl} alt={event.flyerAlt || event.title} fill className="object-cover saturate-150" sizes="(min-width: 1024px) 33vw, 100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-        <span className="absolute left-4 top-4 rounded-md bg-black/80 px-3 py-1 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15">
+      <div className="flex flex-wrap gap-2 border-b border-white/10 bg-black/45 p-3">
+        <span className="rounded-md bg-black/80 px-3 py-1 text-xs font-black uppercase tracking-widest text-white ring-1 ring-white/15">
           {event.isOfficial ? "Official" : event.eventTag || "Community Event"}
         </span>
         {event.isFeatured ? (
-          <span className="absolute right-4 top-4 rounded-md bg-[color:var(--ec-gold)] px-3 py-1 text-xs font-black uppercase tracking-widest text-black">
+          <span className="rounded-md bg-[color:var(--ec-gold)] px-3 py-1 text-xs font-black uppercase tracking-widest text-black">
             Featured
           </span>
         ) : null}
+      </div>
+      <div className="bg-black">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={event.flyerImageUrl}
+          alt={event.flyerAlt || event.title}
+          className="h-auto max-h-[920px] w-full object-contain saturate-150"
+          loading="lazy"
+        />
       </div>
       <div className="space-y-4 p-5">
         <h3 className="text-xl font-black text-white">{event.title}</h3>
