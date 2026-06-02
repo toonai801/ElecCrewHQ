@@ -39,15 +39,15 @@ export function PostCard({ post, canReact = false }: PostCardProps) {
         </span>
       </div>
       {post.imageUrl ? (
-        <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-md border border-white/10 bg-black">
+        <div className="relative mb-4 flex max-h-[760px] min-h-[260px] items-center justify-center overflow-hidden rounded-md border border-white/10 bg-black">
           <Image
             src={post.imageUrl}
             alt={post.imageAlt || post.title}
-            fill
-            className="object-cover saturate-150"
+            width={1200}
+            height={1200}
+            className="h-auto max-h-[760px] w-full object-contain saturate-150"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
         </div>
       ) : null}
       <h3 className="text-xl font-black text-white">{post.title}</h3>
