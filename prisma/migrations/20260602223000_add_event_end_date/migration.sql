@@ -1,0 +1,1 @@
+ALTER TABLE "OfficialEvent" ADD COLUMN IF NOT EXISTS "eventEndDate" TIMESTAMP(3);

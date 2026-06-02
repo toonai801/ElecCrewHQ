@@ -1,6 +1,7 @@
 import type { OfficialEvent } from "@/generated/prisma/client";
+import { formatEventDateRange } from "@/lib/event-dates";
 
-export async function announceOfficialEvent(event: Pick<OfficialEvent, "title" | "description" | "eventDate" | "location" | "host" | "discordUrl" | "rsvpUrl">) {
+export async function announceOfficialEvent(event: Pick<OfficialEvent, "title" | "description" | "eventDate" | "eventEndDate" | "location" | "host" | "discordUrl" | "rsvpUrl">) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -19,7 +20,7 @@ export async function announceOfficialEvent(event: Pick<OfficialEvent, "title" |
           description: event.description,
           color: 0xf5c542,
           fields: [
-            { name: "When", value: event.eventDate.toLocaleString(), inline: true },
+            { name: "When", value: formatEventDateRange(event), inline: true },
             { name: "Where", value: event.location, inline: true },
             { name: "Host", value: event.host, inline: true },
             { name: "RSVP", value: event.rsvpUrl || event.discordUrl || "Join Discord for details" },

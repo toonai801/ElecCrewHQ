@@ -27,6 +27,7 @@ function eventFormData(formData: FormData) {
     description: formData.get("description"),
     eventTag: formData.get("eventTag") || "Community Event",
     eventDate: formData.get("eventDate"),
+    eventEndDate: formData.get("eventEndDate"),
     location: formData.get("location"),
     host: formData.get("host"),
     flyerImageUrl: formData.get("flyerImageUrl"),
@@ -71,6 +72,7 @@ export async function createOfficialEvent(formData: FormData) {
     event = await prisma.officialEvent.create({
       data: {
         ...parsed.data,
+        eventEndDate: parsed.data.eventEndDate || null,
         flyerImageUrl: parsed.data.flyerImageUrl || fallbackFlyer,
         flyerAlt: parsed.data.flyerAlt || parsed.data.title,
         discordUrl: parsed.data.discordUrl || null,
@@ -136,6 +138,7 @@ export async function updateOfficialEvent(formData: FormData) {
       where: { id },
       data: {
         ...parsed.data,
+        eventEndDate: parsed.data.eventEndDate || null,
         flyerImageUrl: parsed.data.flyerImageUrl || fallbackFlyer,
         flyerAlt: parsed.data.flyerAlt || parsed.data.title,
         discordUrl: parsed.data.discordUrl || null,

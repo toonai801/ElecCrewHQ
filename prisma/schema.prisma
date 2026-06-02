@@ -114,6 +114,7 @@ model OfficialEvent {
   description    String
   eventTag       String      @default("Community Event")
   eventDate      DateTime
+  eventEndDate   DateTime?
   location       String
   host           String
   flyerImageUrl  String

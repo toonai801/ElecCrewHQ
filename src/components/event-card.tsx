@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, MapPin, Mic2 } from "lucide-react";
 import { setEventRsvp } from "@/app/events/actions";
+import { formatEventDateRange } from "@/lib/event-dates";
 
 type EventCardProps = {
   event: {
@@ -9,6 +10,7 @@ type EventCardProps = {
     slug: string;
     description: string;
     eventDate: Date;
+    eventEndDate?: Date | null;
     location: string;
     host: string;
     flyerImageUrl: string;
@@ -56,7 +58,7 @@ export function EventCard({ event, canRsvp = false }: EventCardProps) {
         <dl className="ec-text-muted grid gap-2 text-sm">
           <div className="flex gap-2">
             <CalendarDays className="mt-0.5 size-4 text-[color:var(--ec-orange)]" />
-            <dd>{event.eventDate.toLocaleString()}</dd>
+            <dd>{formatEventDateRange(event)}</dd>
           </div>
           <div className="flex gap-2">
             <MapPin className="mt-0.5 size-4 text-[color:var(--ec-yellow)]" />

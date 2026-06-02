@@ -7,6 +7,14 @@ const imageUrl = z
   .optional()
   .or(z.literal(""));
 
+const optionalDate = z.preprocess((value) => {
+  if (value === "" || value === null || value === undefined) {
+    return undefined;
+  }
+
+  return value;
+}, z.coerce.date().optional());
+
 export const communityTagOptions = [
   "announcement",
   "event",
@@ -29,22 +37,28 @@ export const eventTagOptions = [
   "Workshop",
 ] as const;
 
-export const officialEventSchema = z.object({
-  title: z.string().min(3).max(120),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  description: z.string().min(20).max(2000),
-  eventTag: z.enum(eventTagOptions),
-  eventDate: z.coerce.date(),
-  location: z.string().min(2).max(160),
-  host: z.string().min(2).max(120),
-  flyerImageUrl: imageUrl,
-  flyerAlt: z.string().max(180).optional(),
-  discordUrl: imageUrl,
-  rsvpUrl: imageUrl,
-  isOfficial: z.coerce.boolean().default(false),
-  isFeatured: z.coerce.boolean().default(false),
-  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
-});
+export const officialEventSchema = z
+  .object({
+    title: z.string().min(3).max(120),
+    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    description: z.string().min(20).max(2000),
+    eventTag: z.enum(eventTagOptions),
+    eventDate: z.coerce.date(),
+    eventEndDate: optionalDate,
+    location: z.string().min(2).max(160),
+    host: z.string().min(2).max(120),
+    flyerImageUrl: imageUrl,
+    flyerAlt: z.string().max(180).optional(),
+    discordUrl: imageUrl,
+    rsvpUrl: imageUrl,
+    isOfficial: z.coerce.boolean().default(false),
+    isFeatured: z.coerce.boolean().default(false),
+    status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
+  })
+  .refine((event) => !event.eventEndDate || event.eventEndDate > event.eventDate, {
+    message: "End date must be after the start date",
+    path: ["eventEndDate"],
+  });
 
 export const communityPostSchema = z.object({
   title: z.string().min(3).max(120),

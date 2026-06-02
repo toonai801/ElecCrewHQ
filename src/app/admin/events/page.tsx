@@ -2,6 +2,7 @@ import { ActionCard } from "@/components/action-card";
 import { ImageUploadField } from "@/components/image-upload-field";
 import { Section } from "@/components/section";
 import { getAllOfficialEventsForAdmin } from "@/lib/content";
+import { dateTimeLocalValue, formatEventDateRange } from "@/lib/event-dates";
 import { requireRole } from "@/lib/permissions";
 import { eventTagOptions } from "@/lib/validators";
 import {
@@ -21,7 +22,8 @@ const fieldLabels: Record<string, string> = {
   slug: "Slug",
   description: "Description",
   eventTag: "Event tag",
-  eventDate: "Date and time",
+  eventDate: "Start date and time",
+  eventEndDate: "End date and time",
   location: "Location",
   host: "Host/DJ/Performer",
   flyerImageUrl: "Flyer image URL",
@@ -100,7 +102,8 @@ export default async function AdminEventsPage({
           {[
             ["Title", "title", "text"],
             ["Slug", "slug", "text"],
-            ["Date and time", "eventDate", "datetime-local"],
+            ["Start date and time", "eventDate", "datetime-local"],
+            ["End date and time", "eventEndDate", "datetime-local"],
             ["Host/DJ/Performer", "host", "text"],
             ["VR world/location", "location", "text"],
             ["Flyer alt text", "flyerAlt", "text"],
@@ -172,7 +175,7 @@ export default async function AdminEventsPage({
             <ActionCard key={event.id} title={event.title}>
               <div className="space-y-4">
                 <p>
-                  {event.status} - {event.isOfficial ? "Official" : event.eventTag} - {event.eventDate.toLocaleString()} - {event.location}
+                  {event.status} - {event.isOfficial ? "Official" : event.eventTag} - {formatEventDateRange(event)} - {event.location}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["DRAFT", "PUBLISHED", "ARCHIVED"].map((status) => (
@@ -204,7 +207,8 @@ export default async function AdminEventsPage({
                     <input name="id" type="hidden" value={event.id} />
                     <input name="title" defaultValue={event.title} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <input name="slug" defaultValue={event.slug} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
-                    <input name="eventDate" type="datetime-local" defaultValue={event.eventDate.toISOString().slice(0, 16)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="eventDate" type="datetime-local" defaultValue={dateTimeLocalValue(event.eventDate)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
+                    <input name="eventEndDate" type="datetime-local" defaultValue={dateTimeLocalValue(event.eventEndDate)} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white" />
                     <select name="eventTag" defaultValue={event.eventTag} className="rounded-md border border-white/10 bg-black px-3 py-2 text-white">
                       {eventTagOptions.map((tag) => (
                         <option key={tag} value={tag}>
