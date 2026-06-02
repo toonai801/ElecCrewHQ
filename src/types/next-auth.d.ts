@@ -7,6 +7,11 @@ declare module "next-auth/jwt" {
     avatarUrl?: string | null;
     bio?: string | null;
     isBetaAllowed?: boolean;
+    displayName?: string | null;
+    isApproved?: boolean;
+    isActive?: boolean;
+    isBanned?: boolean;
+    onboardingComplete?: boolean;
   }
 }
 
@@ -21,6 +26,11 @@ declare module "next-auth" {
       bio?: string | null;
       role: RoleName;
       isBetaAllowed: boolean;
+      displayName?: string | null;
+      isApproved: boolean;
+      isActive: boolean;
+      isBanned: boolean;
+      onboardingComplete: boolean;
     };
   }
 
@@ -29,5 +39,10 @@ declare module "next-auth" {
     avatarUrl?: string | null;
     bio?: string | null;
     isBetaAllowed: boolean;
+    displayName?: string | null;
+    isApproved?: boolean;
+    isActive?: boolean;
+    isBanned?: boolean;
+    onboardingComplete?: boolean;
   }
 }

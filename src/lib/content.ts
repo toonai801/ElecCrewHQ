@@ -1,10 +1,18 @@
 import { prisma } from "@/lib/prisma";
 
-export async function getPublishedEvents() {
+export async function getPublishedEvents(viewerId?: string) {
   try {
     const events = await prisma.officialEvent.findMany({
       where: {
         status: "PUBLISHED",
+      },
+      include: {
+        rsvps: {
+          select: {
+            status: true,
+            userId: true,
+          },
+        },
       },
       orderBy: [
         { isFeatured: "desc" },
@@ -12,25 +20,59 @@ export async function getPublishedEvents() {
       ],
     });
 
-    return events;
+    return events.map((event) => {
+      const rsvpCounts = event.rsvps.reduce<Record<string, number>>((counts, rsvp) => {
+        counts[rsvp.status] = (counts[rsvp.status] || 0) + 1;
+        return counts;
+      }, {});
+      const viewerRsvp = viewerId ? event.rsvps.find((rsvp) => rsvp.userId === viewerId)?.status || null : null;
+
+      return {
+        ...event,
+        rsvpCounts,
+        viewerRsvp,
+      };
+    });
   } catch {
     return [];
   }
 }
 
-export async function getEventBySlug(slug: string) {
+export async function getEventBySlug(slug: string, viewerId?: string) {
   try {
     const event = await prisma.officialEvent.findUnique({
       where: { slug },
+      include: {
+        rsvps: {
+          select: {
+            status: true,
+            userId: true,
+          },
+        },
+      },
     });
 
-    return event ?? null;
+    if (!event) {
+      return null;
+    }
+
+    const rsvpCounts = event.rsvps.reduce<Record<string, number>>((counts, rsvp) => {
+      counts[rsvp.status] = (counts[rsvp.status] || 0) + 1;
+      return counts;
+    }, {});
+    const viewerRsvp = viewerId ? event.rsvps.find((rsvp) => rsvp.userId === viewerId)?.status || null : null;
+
+    return {
+      ...event,
+      rsvpCounts,
+      viewerRsvp,
+    };
   } catch {
     return null;
   }
 }
 
-export async function getApprovedCommunityPosts() {
+export async function getApprovedCommunityPosts(viewerId?: string) {
   try {
     const posts = await prisma.communityPost.findMany({
       where: {
@@ -41,7 +83,14 @@ export async function getApprovedCommunityPosts() {
         author: {
           select: {
             name: true,
+            displayName: true,
             role: true,
+          },
+        },
+        reactions: {
+          select: {
+            type: true,
+            userId: true,
           },
         },
       },
@@ -50,7 +99,19 @@ export async function getApprovedCommunityPosts() {
       },
     });
 
-    return posts;
+    return posts.map((post) => {
+      const reactionCounts = post.reactions.reduce<Record<string, number>>((counts, reaction) => {
+        counts[reaction.type] = (counts[reaction.type] || 0) + 1;
+        return counts;
+      }, {});
+      const viewerReaction = viewerId ? post.reactions.find((reaction) => reaction.userId === viewerId)?.type || null : null;
+
+      return {
+        ...post,
+        reactionCounts,
+        viewerReaction,
+      };
+    });
   } catch {
     return [];
   }
@@ -77,6 +138,7 @@ export async function getAllCommunityPostsForAdmin() {
           select: {
             id: true,
             name: true,
+            displayName: true,
             email: true,
             role: true,
           },
@@ -118,9 +180,17 @@ export async function getAccountProfile(userId: string) {
       where: { id: userId },
       select: {
         name: true,
+        displayName: true,
+        displayNameSource: true,
+        displayNameUpdatedAt: true,
         email: true,
         avatarUrl: true,
         bio: true,
+        pronouns: true,
+        platforms: true,
+        timezone: true,
+        onboardingComplete: true,
+        guidelinesAcceptedAt: true,
         role: true,
       },
     });

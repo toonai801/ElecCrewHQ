@@ -4,7 +4,9 @@ import { auth } from "@/lib/auth";
 import { getApprovedCommunityPosts } from "@/lib/content";
 
 export default async function CommunityPage() {
-  const [posts, session] = await Promise.all([getApprovedCommunityPosts(), auth()]);
+  const session = await auth();
+  const posts = await getApprovedCommunityPosts(session?.user.id);
+  const canReact = Boolean(session?.user.isActive && !session.user.isBanned && session.user.isApproved && session.user.onboardingComplete);
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
@@ -24,7 +26,7 @@ export default async function CommunityPage() {
 
       <div className="mx-auto grid max-w-3xl gap-5">
         {posts.length ? posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} canReact={canReact} />
         )) : (
           <div className="ec-panel ec-accent-community rounded-lg p-5 text-[color:var(--ec-muted)]">
             No approved community posts yet.

@@ -44,7 +44,7 @@ export default async function AdminCommunityPage() {
                 </p>
                 <h2 className="mt-2 text-2xl font-black text-white">{post.title}</h2>
                 <p className="mt-2 text-sm text-[color:var(--ec-muted)]">
-                  By {post.author.name || post.author.email || "Unknown"} on {post.createdAt.toLocaleDateString()}
+                  By {post.author.displayName || post.author.name || post.author.email || "Unknown"} on {post.createdAt.toLocaleDateString()}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">

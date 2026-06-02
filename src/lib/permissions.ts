@@ -30,12 +30,26 @@ export function canAutoApprovePosts(role?: RoleName) {
   return hasRole(role, ["TOON", "ADMIN", "MODERATOR", "TRUSTED_CREW"]);
 }
 
-export async function requireRole(allowed: RoleName[]) {
+export async function requireSignedIn() {
   const session = await auth();
   const role = session?.user.role as RoleName | undefined;
 
-  if (!session?.user || !hasRole(role, allowed)) {
+  if (!session?.user || !role || session.user.isBanned || !session.user.isActive) {
     redirect("/login?locked=1");
+  }
+
+  return { session, role };
+}
+
+export async function requireRole(allowed: RoleName[]) {
+  const { session, role } = await requireSignedIn();
+
+  if (!hasRole(role, allowed)) {
+    redirect("/login?locked=1");
+  }
+
+  if (role !== "TOON" && (!session.user.isApproved || !session.user.onboardingComplete)) {
+    redirect("/account?setup=required");
   }
 
   return { session, role };

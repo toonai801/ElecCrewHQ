@@ -12,13 +12,30 @@ async function main() {
 
   const toon = await prisma.user.upsert({
     where: { email: toonEmail },
-    update: { role: "TOON", isBetaAllowed: true, isActive: true },
+    update: {
+      role: "TOON",
+      displayName: "TOON",
+      displayNameSource: "ADMIN_OVERRIDE",
+      displayNameUpdatedAt: new Date(),
+      isBetaAllowed: true,
+      isApproved: true,
+      isActive: true,
+      isBanned: false,
+      onboardingComplete: true,
+    },
     create: {
       email: toonEmail,
       name: "TOON",
+      displayName: "TOON",
+      displayNameSource: "ADMIN_OVERRIDE",
+      displayNameUpdatedAt: new Date(),
       role: "TOON",
       isBetaAllowed: true,
+      isApproved: true,
       isActive: true,
+      isBanned: false,
+      onboardingComplete: true,
+      guidelinesAcceptedAt: new Date(),
       profileSlug: "toon",
     },
   });

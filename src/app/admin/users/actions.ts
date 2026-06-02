@@ -53,6 +53,32 @@ export async function toggleUserBetaAccess(formData: FormData) {
   revalidatePath("/admin/users");
 }
 
+export async function toggleUserApproval(formData: FormData) {
+  await requireRole(["TOON", "ADMIN"]);
+  const id = String(formData.get("id") || "");
+  const current = formData.get("current") === "true";
+
+  if (!id) {
+    redirect("/admin/users?error=missing-user");
+  }
+
+  const target = await prisma.user.findUnique({ where: { id } });
+
+  if (!target || target.role === "TOON") {
+    redirect("/admin/users?error=toon-protected");
+  }
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      isApproved: !current,
+      isBetaAllowed: !current,
+    },
+  });
+
+  revalidatePath("/admin/users");
+}
+
 export async function toggleUserActive(formData: FormData) {
   await requireRole(["TOON", "ADMIN"]);
   const id = String(formData.get("id") || "");
@@ -71,6 +97,88 @@ export async function toggleUserActive(formData: FormData) {
   await prisma.user.update({
     where: { id },
     data: { isActive: !current },
+  });
+
+  revalidatePath("/admin/users");
+}
+
+export async function toggleUserBan(formData: FormData) {
+  await requireRole(["TOON", "ADMIN"]);
+  const id = String(formData.get("id") || "");
+  const current = formData.get("current") === "true";
+
+  if (!id) {
+    redirect("/admin/users?error=missing-user");
+  }
+
+  const target = await prisma.user.findUnique({ where: { id } });
+
+  if (!target || target.role === "TOON") {
+    redirect("/admin/users?error=toon-protected");
+  }
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      isBanned: !current,
+      isActive: current,
+      isApproved: current ? target.isApproved : false,
+    },
+  });
+
+  revalidatePath("/admin/users");
+}
+
+export async function updateUserDisplayName(formData: FormData) {
+  const { session } = await requireRole(["TOON", "ADMIN"]);
+  const id = String(formData.get("id") || "");
+  const displayName = String(formData.get("displayName") || "").trim().replace(/\s+/g, " ");
+
+  if (!id || displayName.length < 2 || displayName.length > 80 || /[\u0000-\u001f\u007f]/.test(displayName)) {
+    redirect("/admin/users?error=invalid-display-name");
+  }
+
+  const target = await prisma.user.findUnique({ where: { id } });
+
+  if (!target || target.role === "TOON") {
+    redirect("/admin/users?error=toon-protected");
+  }
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      displayName,
+      displayNameSource: "ADMIN_OVERRIDE",
+      displayNameUpdatedAt: new Date(),
+      displayNameUpdatedById: session.user.id,
+    },
+  });
+
+  revalidatePath("/admin/users");
+}
+
+export async function clearUserDisplayNameOverride(formData: FormData) {
+  await requireRole(["TOON", "ADMIN"]);
+  const id = String(formData.get("id") || "");
+
+  if (!id) {
+    redirect("/admin/users?error=missing-user");
+  }
+
+  const target = await prisma.user.findUnique({ where: { id } });
+
+  if (!target || target.role === "TOON") {
+    redirect("/admin/users?error=toon-protected");
+  }
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      displayName: target.name || target.email || "Electric Crew member",
+      displayNameSource: "DISCORD",
+      displayNameUpdatedAt: new Date(),
+      displayNameUpdatedById: null,
+    },
   });
 
   revalidatePath("/admin/users");

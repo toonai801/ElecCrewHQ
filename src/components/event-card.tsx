@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, MapPin, Mic2 } from "lucide-react";
+import { setEventRsvp } from "@/app/events/actions";
 
 type EventCardProps = {
   event: {
+    id: string;
     title: string;
     slug: string;
     description: string;
@@ -15,10 +17,19 @@ type EventCardProps = {
     eventTag?: string | null;
     isOfficial?: boolean;
     isFeatured?: boolean;
+    rsvpCounts?: Record<string, number>;
+    viewerRsvp?: string | null;
   };
+  canRsvp?: boolean;
 };
 
-export function EventCard({ event }: EventCardProps) {
+const rsvpLabels = [
+  ["GOING", "Going"],
+  ["MAYBE", "Maybe"],
+  ["SADLY_NO", "Sadly no"],
+];
+
+export function EventCard({ event, canRsvp = false }: EventCardProps) {
   return (
     <article className="ec-panel ec-accent-events ec-card-hover ec-hud overflow-hidden rounded-lg shadow-[0_0_30px_rgba(255,138,31,0.18)]">
       <div className="relative aspect-[16/10]">
@@ -50,6 +61,30 @@ export function EventCard({ event }: EventCardProps) {
             <dd>{event.host}</dd>
           </div>
         </dl>
+        <div className="flex flex-wrap gap-2">
+          {rsvpLabels.map(([status, label]) => {
+            const active = event.viewerRsvp === status;
+            const count = event.rsvpCounts?.[status] || 0;
+
+            return canRsvp ? (
+              <form key={status} action={setEventRsvp}>
+                <input name="eventId" type="hidden" value={event.id} />
+                <input name="slug" type="hidden" value={event.slug} />
+                <input name="status" type="hidden" value={status} />
+                <button
+                  className={active ? "rounded-md border border-[color:rgba(57,255,136,0.75)] bg-[color:rgba(57,255,136,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-green)]" : "ec-button-ghost px-3 py-2 text-xs font-black"}
+                  type="submit"
+                >
+                  {label} {count}
+                </button>
+              </form>
+            ) : (
+              <span key={status} className="rounded-md border border-white/10 px-3 py-2 text-xs font-black text-white/60">
+                {label} {count}
+              </span>
+            );
+          })}
+        </div>
         <Link href={`/events/${event.slug}`} className="ec-button-primary inline-flex px-4 py-2 text-sm">
           Event details
         </Link>

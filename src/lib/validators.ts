@@ -68,10 +68,17 @@ export const communityPostSchema = z.object({
   visibility: z.enum(["PUBLIC", "MEMBERS_ONLY"]),
 });
 
+export const platformOptions = ["PC", "Console", "VR", "Mobile"] as const;
+
 export const profileSchema = z.object({
-  name: z.string().min(2).max(80),
   avatarUrl: imageUrl,
+  pronouns: z.string().max(80).optional(),
   bio: z.string().max(600).optional(),
+  timezone: z.string().min(2).max(80),
+  platforms: z
+    .array(z.enum(platformOptions))
+    .min(1),
+  guidelinesAccepted: z.literal(true),
 });
 
 export const maxImageUploadBytes = getUploadLimitBytes("community");

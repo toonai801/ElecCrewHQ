@@ -10,9 +10,12 @@ export async function updateProfile(formData: FormData) {
   const { session } = await requireRole(["TOON", "ADMIN", "MODERATOR", "TRUSTED_CREW", "MEMBER"]);
 
   const parsed = profileSchema.safeParse({
-    name: formData.get("name"),
     avatarUrl: formData.get("avatarUrl"),
+    pronouns: formData.get("pronouns"),
     bio: formData.get("bio"),
+    timezone: formData.get("timezone"),
+    platforms: formData.getAll("platforms"),
+    guidelinesAccepted: formData.get("guidelinesAccepted") === "on",
   });
 
   if (!parsed.success) {
@@ -22,9 +25,13 @@ export async function updateProfile(formData: FormData) {
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
-      name: parsed.data.name,
       avatarUrl: parsed.data.avatarUrl || null,
+      pronouns: parsed.data.pronouns || null,
       bio: parsed.data.bio || null,
+      timezone: parsed.data.timezone,
+      platforms: parsed.data.platforms,
+      guidelinesAcceptedAt: new Date(),
+      onboardingComplete: true,
     },
   });
 

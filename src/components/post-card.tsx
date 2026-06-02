@@ -1,20 +1,33 @@
 import Image from "next/image";
+import { togglePostReaction } from "@/app/community/actions";
 import { postTypeTone } from "@/lib/theme";
 
 type PostCardProps = {
   post: {
+    id: string;
     title: string;
     body: string;
     postType: string;
     imageUrl?: string | null;
     imageAlt?: string | null;
     tags: string[];
-    author?: { name?: string | null; role?: string | null } | null;
+    author?: { name?: string | null; displayName?: string | null; role?: string | null } | null;
     createdAt: Date;
+    reactionCounts?: Record<string, number>;
+    viewerReaction?: string | null;
   };
+  canReact?: boolean;
 };
 
-export function PostCard({ post }: PostCardProps) {
+const reactionLabels = [
+  ["LIKE", "Like"],
+  ["LOVE", "Love"],
+  ["HYPE", "Hype"],
+  ["LAUGH", "Laugh"],
+  ["SUPPORT", "Support"],
+];
+
+export function PostCard({ post, canReact = false }: PostCardProps) {
   return (
     <article className="ec-panel-strong ec-accent-community ec-card-hover ec-hud rounded-lg p-5">
       <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -22,7 +35,7 @@ export function PostCard({ post }: PostCardProps) {
           {post.postType}
         </span>
         <span className="ec-text-soft text-xs">
-          {post.author?.name || "Electric Crew"} - {post.createdAt.toLocaleDateString()}
+          {post.author?.displayName || post.author?.name || "Electric Crew"} - {post.createdAt.toLocaleDateString()}
         </span>
       </div>
       {post.imageUrl ? (
@@ -45,9 +58,32 @@ export function PostCard({ post }: PostCardProps) {
             key={tag}
             className="rounded-md border border-[color:var(--ec-border)] px-2 py-1 text-xs text-[color:var(--ec-muted-soft)]"
           >
-            #{tag}
-          </span>
-        ))}
+          #{tag}
+        </span>
+      ))}
+      </div>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {reactionLabels.map(([type, label]) => {
+          const active = post.viewerReaction === type;
+          const count = post.reactionCounts?.[type] || 0;
+
+          return canReact ? (
+            <form key={type} action={togglePostReaction}>
+              <input name="postId" type="hidden" value={post.id} />
+              <input name="type" type="hidden" value={type} />
+              <button
+                className={active ? "rounded-md border border-[color:rgba(57,255,136,0.75)] bg-[color:rgba(57,255,136,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-green)]" : "ec-button-ghost px-3 py-2 text-xs font-black"}
+                type="submit"
+              >
+                {label} {count}
+              </button>
+            </form>
+          ) : (
+            <span key={type} className="rounded-md border border-white/10 px-3 py-2 text-xs font-black text-white/60">
+              {label} {count}
+            </span>
+          );
+        })}
       </div>
     </article>
   );

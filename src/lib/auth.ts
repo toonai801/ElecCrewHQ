@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
-import { isBetaAllowed } from "@/lib/beta-lock";
 
 const providers = [
   ...(process.env.BETA_ADMIN_EMAIL && process.env.BETA_ADMIN_PASSWORD
@@ -30,15 +29,28 @@ const providers = [
               where: { email },
               update: {
                 role: "TOON",
+                displayName: "TOON",
+                displayNameSource: "ADMIN_OVERRIDE",
+                displayNameUpdatedAt: new Date(),
                 isBetaAllowed: true,
+                isApproved: true,
                 isActive: true,
+                isBanned: false,
+                onboardingComplete: true,
               },
               create: {
                 email,
                 name: "TOON",
+                displayName: "TOON",
+                displayNameSource: "ADMIN_OVERRIDE",
+                displayNameUpdatedAt: new Date(),
                 role: "TOON",
                 isBetaAllowed: true,
+                isApproved: true,
                 isActive: true,
+                isBanned: false,
+                onboardingComplete: true,
+                guidelinesAcceptedAt: new Date(),
                 profileSlug: "toon",
               },
             });
@@ -78,19 +90,80 @@ export const authOptions: NextAuthOptions = {
             ? profileWithId.id
             : undefined;
 
-      return isBetaAllowed({
-        email: user.email,
-        discordId,
-        isBetaAllowed: "isBetaAllowed" in user ? Boolean(user.isBetaAllowed) : false,
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          OR: [
+            ...(user.email ? [{ email: user.email }] : []),
+            ...(discordId ? [{ discordId }] : []),
+          ],
+        },
+        select: {
+          isActive: true,
+          isBanned: true,
+        },
       });
+
+      return existingUser ? existingUser.isActive && !existingUser.isBanned : true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
-        token.avatarUrl = user.avatarUrl || user.image || null;
-        token.bio = "bio" in user && typeof user.bio === "string" ? user.bio : null;
-        token.isBetaAllowed = user.isBetaAllowed;
+
+        const discordId = account?.provider === "discord" ? account.providerAccountId : undefined;
+        const discordName = typeof user.name === "string" ? user.name.trim() : "";
+        const existingUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: {
+            displayName: true,
+            displayNameSource: true,
+            displayNameUpdatedAt: true,
+          },
+        });
+
+        const displayName =
+          existingUser?.displayNameSource === "ADMIN_OVERRIDE"
+            ? existingUser.displayName
+            : discordName || existingUser?.displayName || user.email || "Electric Crew member";
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            ...(discordId ? { discordId } : {}),
+            ...(user.image ? { avatarUrl: user.image } : {}),
+            displayName,
+            displayNameUpdatedAt: existingUser?.displayNameUpdatedAt || new Date(),
+          },
+        });
+      }
+
+      if (token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: String(token.id) },
+          select: {
+            role: true,
+            avatarUrl: true,
+            image: true,
+            bio: true,
+            displayName: true,
+            isBetaAllowed: true,
+            isApproved: true,
+            isActive: true,
+            isBanned: true,
+            onboardingComplete: true,
+          },
+        });
+
+        if (dbUser) {
+          token.role = dbUser.role;
+          token.avatarUrl = dbUser.avatarUrl || dbUser.image || null;
+          token.bio = dbUser.bio;
+          token.displayName = dbUser.displayName;
+          token.isBetaAllowed = dbUser.isBetaAllowed;
+          token.isApproved = dbUser.isApproved;
+          token.isActive = dbUser.isActive;
+          token.isBanned = dbUser.isBanned;
+          token.onboardingComplete = dbUser.onboardingComplete;
+        }
       }
 
       return token;
@@ -101,7 +174,12 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as typeof session.user.role;
         session.user.avatarUrl = typeof token.avatarUrl === "string" ? token.avatarUrl : null;
         session.user.bio = typeof token.bio === "string" ? token.bio : null;
+        session.user.displayName = typeof token.displayName === "string" ? token.displayName : null;
         session.user.isBetaAllowed = Boolean(token.isBetaAllowed);
+        session.user.isApproved = Boolean(token.isApproved);
+        session.user.isActive = token.isActive !== false;
+        session.user.isBanned = Boolean(token.isBanned);
+        session.user.onboardingComplete = Boolean(token.onboardingComplete);
       }
 
       return session;

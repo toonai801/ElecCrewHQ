@@ -50,9 +50,32 @@ enum RecommendationStatus {
   REJECTED
 }
 
+enum DisplayNameSource {
+  DISCORD
+  ADMIN_OVERRIDE
+}
+
+enum EventRsvpStatus {
+  GOING
+  MAYBE
+  SADLY_NO
+}
+
+enum PostReactionType {
+  LIKE
+  LOVE
+  HYPE
+  LAUGH
+  SUPPORT
+}
+
 model User {
   id                    String                    @id @default(cuid())
   name                  String?
+  displayName           String?
+  displayNameSource     DisplayNameSource         @default(DISCORD)
+  displayNameUpdatedAt  DateTime?
+  displayNameUpdatedById String?
   email                 String?                   @unique
   emailVerified         DateTime?
   image                 String?
@@ -60,7 +83,14 @@ model User {
   discordId             String?                   @unique
   role                  Role                      @default(MEMBER)
   bio                   String?
+  pronouns              String?
+  platforms             String[]                  @default([])
+  timezone              String?
+  onboardingComplete    Boolean                   @default(false)
+  guidelinesAcceptedAt  DateTime?
   profileSlug           String?                   @unique
+  isApproved            Boolean                   @default(false)
+  isBanned              Boolean                   @default(false)
   isBetaAllowed         Boolean                   @default(false)
   isActive              Boolean                   @default(true)
   accounts              Account[]
@@ -68,6 +98,8 @@ model User {
   officialEvents        OfficialEvent[]           @relation("OfficialEventsCreated")
   communityPosts        CommunityPost[]           @relation("CommunityPostsAuthored")
   approvedPosts         CommunityPost[]           @relation("CommunityPostsApproved")
+  eventRsvps            EventRsvp[]
+  postReactions         PostReaction[]
   moderatorNotes        ModeratorRecommendation[] @relation("ModeratorRecommendationsMade")
   reviewedNotes         ModeratorRecommendation[] @relation("ModeratorRecommendationsReviewed")
   recommendations       ModeratorRecommendation[] @relation("ModeratorRecommendationsForUser")
@@ -95,6 +127,7 @@ model OfficialEvent {
   createdBy      User        @relation("OfficialEventsCreated", fields: [createdById], references: [id])
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
+  rsvps          EventRsvp[]
 }
 
 model CommunityPost {
@@ -116,6 +149,33 @@ model CommunityPost {
   approvedAt    DateTime?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  reactions     PostReaction[]
+}
+
+model EventRsvp {
+  id        String          @id @default(cuid())
+  status    EventRsvpStatus
+  eventId   String
+  event     OfficialEvent   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@unique([eventId, userId])
+}
+
+model PostReaction {
+  id        String           @id @default(cuid())
+  type      PostReactionType
+  postId    String
+  post      CommunityPost    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([postId, userId])
 }
 
 model ModeratorRecommendation {
