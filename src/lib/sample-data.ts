@@ -4,7 +4,7 @@ export type PostStatus = "PENDING" | "APPROVED" | "REJECTED";
 export type PostType = "EVENT" | "FLYER" | "PHOTO" | "TEXT" | "LINK";
 
 export const discordInviteUrl =
-  process.env.NEXT_PUBLIC_DISCORD_INVITE_URL || "https://discord.gg/electriccrewvr";
+  process.env.NEXT_PUBLIC_DISCORD_INVITE_URL || "https://discord.gg/9f6gr64d";
 
 export const navItems = [
   { href: "/", label: "Home" },
