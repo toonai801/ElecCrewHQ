@@ -12,7 +12,7 @@ export default async function DiscordPage() {
       <div className="ec-panel ec-accent-discord max-w-2xl rounded-lg p-6">
         <MessageCircle className="mb-4 size-8 text-[color:var(--ec-blue)]" />
         <p className="text-lg leading-8 text-white/72">
-          Join the Discord to connect with Electric Crew, find event updates, and hang with the community.
+          Join the Electric Crew Discord.
         </p>
         <a href={inviteUrl} target="_blank" rel="noreferrer" className="ec-button-cyan mt-6 inline-flex px-5 py-3 font-black">
           Join Discord
