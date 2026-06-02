@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { authOrigin } from "@/lib/auth-origin";
 
 export function DiscordLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,11 @@ export function DiscordLoginButton() {
         event.preventDefault();
         setIsLoading(true);
         setError("");
+
+        if (window.location.origin !== authOrigin) {
+          window.location.href = `${authOrigin}/login`;
+          return;
+        }
 
         const result = await signIn("discord", {
           callbackUrl: "/account",

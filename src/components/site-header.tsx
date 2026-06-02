@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Zap } from "lucide-react";
 import { auth } from "@/lib/auth";
+import { authOrigin } from "@/lib/auth-origin";
 import { canModeratePosts } from "@/lib/permissions";
 import { navItems } from "@/lib/sample-data";
 
@@ -30,7 +31,7 @@ export async function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <Link href={session ? "/account" : "/login"} className="rounded-md px-3 py-2 hover:bg-white/10 hover:text-white">
+          <Link href={session ? "/account" : `${authOrigin}/login`} className="rounded-md px-3 py-2 hover:bg-white/10 hover:text-white">
             {session ? "Profile" : "Login"}
           </Link>
           {canModeratePosts(role) ? (
