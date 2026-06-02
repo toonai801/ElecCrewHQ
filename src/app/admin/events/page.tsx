@@ -16,6 +16,31 @@ const inactiveStatusButtonClass = "ec-button-ghost px-3 py-2 text-xs font-black"
 const activeFeaturedButtonClass =
   "rounded-md border border-[color:rgba(245,197,66,0.72)] bg-[color:rgba(245,197,66,0.16)] px-3 py-2 text-xs font-black text-[color:var(--ec-gold)] shadow-[0_0_18px_rgba(245,197,66,0.14)]";
 
+const fieldLabels: Record<string, string> = {
+  title: "Title",
+  slug: "Slug",
+  description: "Description",
+  eventTag: "Event tag",
+  eventDate: "Date and time",
+  location: "Location",
+  host: "Host/DJ/Performer",
+  flyerImageUrl: "Flyer image URL",
+  flyerAlt: "Flyer alt text",
+  discordUrl: "Discord link",
+  rsvpUrl: "RSVP link",
+  status: "Status",
+};
+
+const errorMessages: Record<string, string> = {
+  "invalid-event": "Event was not saved. Check the highlighted field rules and try again.",
+  "invalid-event-update": "Event changes were not saved. Check the highlighted field rules and try again.",
+  "duplicate-slug": "That slug is already used by another event. Change the slug or leave it blank for a new event.",
+  "create-event-failed": "Event was not saved because the database rejected the request.",
+  "update-event-failed": "Event changes were not saved because the database rejected the request.",
+  "invalid-status": "That status change was not valid.",
+  "missing-event": "The event could not be found.",
+};
+
 function eventStatusButtonClass(currentStatus: string, buttonStatus: string) {
   if (currentStatus !== buttonStatus) {
     return inactiveStatusButtonClass;
@@ -32,12 +57,44 @@ function eventStatusButtonClass(currentStatus: string, buttonStatus: string) {
   return activeFeaturedButtonClass;
 }
 
-export default async function AdminEventsPage() {
+function adminNotice(error?: string, field?: string, success?: string) {
+  if (success === "1") {
+    return {
+      className: "border-[color:rgba(57,255,136,0.45)] bg-[color:rgba(57,255,136,0.10)] text-[color:var(--ec-green)]",
+      message: success === "1" ? "Event saved." : "",
+    };
+  }
+
+  if (!error) {
+    return null;
+  }
+
+  const fieldName = field ? fieldLabels[field] || field : "";
+  const detail = fieldName ? ` Problem field: ${fieldName}.` : "";
+
+  return {
+    className: "border-[color:rgba(255,75,75,0.50)] bg-[color:rgba(255,75,75,0.10)] text-[color:var(--ec-red)]",
+    message: `${errorMessages[error] || "Something went wrong while saving the event."}${detail}`,
+  };
+}
+
+export default async function AdminEventsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ error?: string; field?: string; created?: string; updated?: string }>;
+}) {
   await requireRole(["TOON", "ADMIN"]);
+  const params = await searchParams;
+  const notice = adminNotice(params?.error, params?.field, params?.created || params?.updated);
   const events = await getAllOfficialEventsForAdmin();
 
   return (
     <Section eyebrow="Admin events" title="Event management">
+      {notice ? (
+        <div className={`mb-5 rounded-lg border px-4 py-3 text-sm font-black ${notice.className}`}>
+          {notice.message}
+        </div>
+      ) : null}
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <form action={createOfficialEvent} className="ec-panel ec-accent-events grid gap-4 rounded-lg p-5">
           {[
@@ -55,9 +112,14 @@ export default async function AdminEventsPage() {
               <input
                 name={name}
                 type={type}
-                required={["title", "slug", "eventDate", "host", "location"].includes(name)}
+                required={["title", "eventDate", "host", "location"].includes(name)}
+                placeholder={name === "slug" ? "Auto-created from title if blank" : undefined}
+                pattern={name === "slug" ? "[a-z0-9]+(?:-[a-z0-9]+)*" : undefined}
                 className="rounded-md border border-white/10 bg-black px-3 py-2 text-white outline-none focus:border-[color:var(--ec-orange)]"
               />
+              {name === "slug" ? (
+                <span className="text-xs font-semibold text-white/45">Lowercase letters, numbers, and hyphens only.</span>
+              ) : null}
             </label>
           ))}
           <label className="grid gap-2 text-sm font-bold text-white/80">
