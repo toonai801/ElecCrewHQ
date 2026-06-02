@@ -1,15 +1,38 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export function DiscordLoginButton() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   return (
-    <button
-      className="ec-button-cyan mt-6 px-5 py-3 font-black"
-      type="button"
-      onClick={() => signIn("discord", { callbackUrl: "/account" })}
+    <form
+      className="mt-6"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        setIsLoading(true);
+        setError("");
+
+        const result = await signIn("discord", {
+          callbackUrl: "/account",
+          redirect: false,
+        });
+
+        if (result?.url) {
+          window.location.href = result.url;
+          return;
+        }
+
+        setIsLoading(false);
+        setError("Discord login did not start. Refresh and try again.");
+      }}
     >
-      Continue with Discord
-    </button>
+      <button className="ec-button-cyan px-5 py-3 font-black" disabled={isLoading} type="submit">
+        {isLoading ? "Opening Discord..." : "Continue with Discord"}
+      </button>
+      {error ? <p className="mt-3 text-sm font-bold text-[color:var(--ec-red)]">{error}</p> : null}
+    </form>
   );
 }
