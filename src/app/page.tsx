@@ -37,7 +37,7 @@ export default async function HomePage() {
                         "bg-[color:var(--ec-blue)]",
                         "bg-[color:var(--ec-magenta)]",
                       ].map((color) => (
-                        <span key={color} className={`h-1.5 rounded-full ${color}`} />
+                        <span key={color} className={`ec-spectrum-bar h-1.5 rounded-full ${color}`} />
                       ))}
                     </div>
                     <p className="ec-welcome-text mt-3 text-center text-6xl font-black leading-none sm:text-7xl lg:text-8xl">

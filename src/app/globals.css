@@ -236,8 +236,79 @@ body::after {
     var(--ec-violet) 86%,
     var(--ec-magenta) 100%
   );
+  background-size: 220% 100%;
   background-clip: text;
   color: transparent;
+  animation: ec-welcome-shift 6s linear infinite;
+}
+
+.ec-spectrum-bar {
+  animation: ec-bar-cycle 3.2s ease-in-out infinite;
+}
+
+.ec-spectrum-bar:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.ec-spectrum-bar:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+.ec-spectrum-bar:nth-child(4) {
+  animation-delay: 0.36s;
+}
+
+.ec-spectrum-bar:nth-child(5) {
+  animation-delay: 0.48s;
+}
+
+.ec-spectrum-bar:nth-child(6) {
+  animation-delay: 0.60s;
+}
+
+.ec-spectrum-bar:nth-child(7) {
+  animation-delay: 0.72s;
+}
+
+@keyframes ec-welcome-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 220% 50%;
+  }
+}
+
+@keyframes ec-bar-cycle {
+  0%,
+  100% {
+    background-color: var(--ec-red);
+  }
+
+  14% {
+    background-color: var(--ec-orange);
+  }
+
+  28% {
+    background-color: var(--ec-yellow);
+  }
+
+  42% {
+    background-color: var(--ec-green);
+  }
+
+  56% {
+    background-color: var(--ec-cyan);
+  }
+
+  70% {
+    background-color: var(--ec-blue);
+  }
+
+  84% {
+    background-color: var(--ec-magenta);
+  }
 }
 
 .ec-spectrum-border {
