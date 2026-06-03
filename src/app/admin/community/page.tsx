@@ -74,7 +74,7 @@ export default async function AdminCommunityPage() {
                 </form>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-6 text-[color:var(--ec-muted)]">{post.body}</p>
+            <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[color:var(--ec-muted)]">{post.body}</p>
             {post.imageUrl ? <p className="mt-3 text-sm text-[color:var(--ec-magenta)]">{post.imageUrl}</p> : null}
             {post.externalUrl ? <p className="mt-3 text-sm text-[color:var(--ec-cyan)]">{post.externalUrl}</p> : null}
             <div className="mt-4 flex flex-wrap gap-2">

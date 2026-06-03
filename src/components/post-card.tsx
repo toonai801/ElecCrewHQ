@@ -49,7 +49,7 @@ export function PostCard({ post, canReact = false }: PostCardProps) {
         </div>
       ) : null}
       <h3 className="text-xl font-black text-white">{post.title}</h3>
-      <p className="ec-text-muted mt-3 text-sm leading-6">{post.body}</p>
+      <p className="ec-text-muted mt-3 whitespace-pre-wrap text-sm leading-6">{post.body}</p>
       <div className="mt-4 flex flex-wrap gap-2">
         {post.tags.map((tag) => (
           <span

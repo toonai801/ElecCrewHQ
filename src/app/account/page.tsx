@@ -107,7 +107,7 @@ export default async function AccountPage() {
                     </form>
                   ) : null}
                 </div>
-                <p className="mt-3 text-sm leading-6 text-[color:var(--ec-muted)]">{post.body}</p>
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-[color:var(--ec-muted)]">{post.body}</p>
               </article>
             )) : (
               <p className="text-[color:var(--ec-muted)]">No posts yet.</p>
